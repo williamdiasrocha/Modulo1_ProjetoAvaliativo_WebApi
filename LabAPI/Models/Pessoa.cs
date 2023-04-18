@@ -10,9 +10,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LabAPI.Models
 {
-    [Table("PESSOAS")]
-    [Index(nameof(CPF), IsUnique = true)]
-    public abstract class Pessoa
+    
+    public class Pessoa
     {
         [Column("ID"), Key] public int Id { get; set; }
         [Column("NOME_COMPLETO"), Required ] public string NomeCompleto { get; set; }

@@ -28,8 +28,8 @@ namespace LabAPI.Models
 
         public enum EstadoSistema
         {
-            Inativo = 0,
-            Ativo = 1
+            Inativo,
+            Ativo 
         }
 
         

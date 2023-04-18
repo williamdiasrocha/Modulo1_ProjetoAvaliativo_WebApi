@@ -1,7 +1,10 @@
 using LabAPI.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Newtonsoft.Json;
 
-namespace LabAPI.Context
+
+namespace LabAPI.Models
 {
     public class LabApiContext : DbContext
     {
@@ -10,12 +13,28 @@ namespace LabAPI.Context
         
         }
 
-    public DbSet<Pessoa> Pessoas { get; set; }
+    
     public DbSet<Paciente> Pacientes { get; set; }
     public DbSet<Medico> Medicos { get; set; }
     public DbSet<Enfermeiro> Enfermeiros { get; set; }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Paciente>()
+            .Property(x => x._Alergias)
+            .HasConversion(new ValueConverter<List<string>, string>(
+                v => JsonConvert.SerializeObject(v),
+                v => JsonConvert.DeserializeObject<List<string>>(v)));
+            
+            modelBuilder.Entity<Paciente>()
+            .Property(x => x._CuidadosEspecificos)
+            .HasConversion(new ValueConverter<List<string>, string>(
+                v => JsonConvert.SerializeObject(v),
+                v => JsonConvert.DeserializeObject<List<string>>(v)));
 
-   
+            modelBuilder.Seed();
+        }
     }
+
+    
 }
