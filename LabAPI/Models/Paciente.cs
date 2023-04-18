@@ -8,8 +8,8 @@ namespace LabAPI.Models
     public class Paciente : Pessoa
     {   
         [Column("CONTATO_EMERGENCIA"), Required] public string ContatoEmergencia { get; set; }
-        [Column("ALERGIAS")] public List<string> _Alergias { get; set; } = new List<string>();
-        [Column("CUIDADOS_ESPECIAIS")] public List<string> _CuidadosEspecificos { get; set; } = new List<string>();
+        [Column("ALERGIAS")] public string Alergias { get; set; } 
+        [Column("CUIDADOS_ESPECIAIS")] public string CuidadosEspecificos { get; set; } 
         [Column("CONVENIO"), MaxLength(30)] public string Convenio { get; set; }
         [Column("STATUS_ATENDIMENTO")] public StatusAtendimento statusAtendimento { get; set; }
         [Column("TOTAL_ATENDIMENTOS")] public int TotalAtendimentos { get; set; }

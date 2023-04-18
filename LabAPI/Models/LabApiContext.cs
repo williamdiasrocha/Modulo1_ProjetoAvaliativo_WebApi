@@ -21,13 +21,13 @@ namespace LabAPI.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Paciente>()
-            .Property(x => x._Alergias)
+            .Property(x => x.Alergias)
             .HasConversion(new ValueConverter<List<string>, string>(
                 v => JsonConvert.SerializeObject(v),
                 v => JsonConvert.DeserializeObject<List<string>>(v)));
             
             modelBuilder.Entity<Paciente>()
-            .Property(x => x._CuidadosEspecificos)
+            .Property(x => x.CuidadosEspecificos)
             .HasConversion(new ValueConverter<List<string>, string>(
                 v => JsonConvert.SerializeObject(v),
                 v => JsonConvert.DeserializeObject<List<string>>(v)));

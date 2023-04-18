@@ -46,8 +46,8 @@ namespace LabAPI.Controllers
                 ContatoEmergencia = pacienteDTO.ContatoEmergencia,
                 Genero = pacienteDTO.Genero,
                 Telefone = pacienteDTO.Telefone,
-                _Alergias = pacienteDTO._Alergias, 
-                _CuidadosEspecificos = pacienteDTO._CuidadosEspecificos,               
+                Alergias =  string.Join("|",pacienteDTO._Alergias),
+                CuidadosEspecificos = string.Join("|", pacienteDTO._CuidadosEspecificos),               
                 Convenio = pacienteDTO.Convenio
             };
             _context.Pacientes.Add(paciente);
