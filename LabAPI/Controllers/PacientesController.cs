@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,38 +23,167 @@ namespace LabAPI.Controllers
         [Route("pacientes")]
         public ActionResult Inserir([FromBody] PacienteDTO pacienteDTO)
         {
-                // Verifica se os campos obrigatórios foram preenchidos
-            if(string.IsNullOrWhiteSpace(pacienteDTO.NomeCompleto) || string.IsNullOrWhiteSpace(pacienteDTO.CPF) || pacienteDTO.DataNascimento == null)
+            if (pacienteDTO == null)  // verifica se paciente é nulo
             {
-                return BadRequest("Dados não inseridos. Favor preencher com dados válidos.");
+                return StatusCode(400, "Paciente não informado.");
+            }
+            if (Regex.IsMatch(pacienteDTO.NomeCompleto, @"\d")) // verifica se a string NomeCompleto possui algum número
+            {
+                return StatusCode(400, "O Nome Completo deve conter apenas letras.");
+            }
+            // Verifica se os campos obrigatórios foram preenchidos
+            if(string.IsNullOrWhiteSpace(pacienteDTO.NomeCompleto))
+            {
+                return StatusCode(400, "Nome completo não inseridos. Favor preencher com dados válidos.");
+            }
+            
+            if( pacienteDTO.DataNascimento == null || pacienteDTO.DataNascimento == DateTime.MinValue )
+            {
+                return StatusCode(400, "Data de Nascimento não informado.");
+            }
+
+            if( string.IsNullOrWhiteSpace(pacienteDTO.CPF))
+            {
+                return StatusCode(400, "CPF com erro.");
+            }
+            if(pacienteDTO.CPF.Length != 11)
+            {
+                return StatusCode(400, "CPF deve conter exatamente 11 números.");
+            }
+            if(!string.IsNullOrEmpty(pacienteDTO.CPF))
+            {
+                if(!Regex.IsMatch(pacienteDTO.CPF, @"^\d+S"))
+                {
+                    return StatusCode(400, "CPF deve conter apenas números.");
+                }
+                else
+                {
+                    return StatusCode(400, "CPF com erro.");
+                }
             }
                 // Verifica se o CPF já existe no Banco de Dados
             if(_context.Pacientes.Any(x => x.CPF == pacienteDTO.CPF))
             {
-                return Conflict("CPF já existe.");
+                return StatusCode(409, "CPF já existe.");
             }
             if (string.IsNullOrEmpty(pacienteDTO.ContatoEmergencia)) 
             {
-                return BadRequest("Contato de Emergência é item obrigatório.");
+                return StatusCode(400, "Contato de Emergência é item obrigatório.");
+            }
+            try
+            {
+                // Insere o paciente no banco de dados
+                var paciente = new Paciente()
+                {  
+                    NomeCompleto = pacienteDTO.NomeCompleto,
+                    DataNascimento = pacienteDTO.DataNascimento.Value,
+                    CPF = pacienteDTO.CPF,          
+                    ContatoEmergencia = pacienteDTO.ContatoEmergencia,
+                    Genero = pacienteDTO.Genero,
+                    Telefone = pacienteDTO.Telefone,
+                    Alergias =  string.Join("|",pacienteDTO.Alergias),
+                    CuidadosEspecificos = string.Join("|", pacienteDTO.CuidadosEspecificos),               
+                    Convenio = pacienteDTO.Convenio
+                };
+                _context.Pacientes.Add(paciente);
+                _context.SaveChanges();
+
+                var response = new
+                {
+                    mensagem = "Paciente inserido com sucesso!",
+                    Identificador = paciente.Id,
+                    Atendimentos = new List<Paciente>(),
+                    Nome = paciente.NomeCompleto,
+                    Genero = paciente.Genero,
+                    DataNascimento = paciente.DataNascimento,
+                    CPF = paciente.CPF,
+                    Telefone = paciente.Telefone,
+                    ContatoEmergencia = paciente.ContatoEmergencia,
+                    Alergias = paciente.Alergias,
+                    CuidadosEspecificos = paciente.CuidadosEspecificos,
+                    Convenio = paciente.Convenio
+                };
+
+                return StatusCode( 201, response);
+            }
+            catch
+            {
+                return StatusCode(409, "Erro ao inserir Paciente.");
+            }
+        }
+
+        [HttpPut]
+        [Route("pacientes/{id}")]
+        public ActionResult Atualizar(int id, [FromBody] PacienteDTO pacienteDTO)
+        {
+            // Verificação se o paciente com o ID está inserido dentro do banco de dados pacientes.
+            var pacienteExistente = _context.Pacientes.FirstOrDefault(x => x.Id == id);
+            if (pacienteExistente ==  null)
+            {
+                return StatusCode(404, "PACIENTE não encontrado na base de dados.");
             }
 
-            // Insere o paciente no banco de dados
-            var paciente = new Paciente()
-            {  
-                NomeCompleto = pacienteDTO.NomeCompleto,
-                DataNascimento = pacienteDTO.DataNascimento,
-                CPF = pacienteDTO.CPF,          
-                ContatoEmergencia = pacienteDTO.ContatoEmergencia,
-                Genero = pacienteDTO.Genero,
-                Telefone = pacienteDTO.Telefone,
-                Alergias =  string.Join("|",pacienteDTO._Alergias),
-                CuidadosEspecificos = string.Join("|", pacienteDTO._CuidadosEspecificos),               
-                Convenio = pacienteDTO.Convenio
-            };
-            _context.Pacientes.Add(paciente);
+            // Atualizar as informações novas do pacientes
+            pacienteExistente.NomeCompleto = pacienteDTO.NomeCompleto;
+            pacienteExistente.Genero = pacienteDTO.Genero;
+            pacienteExistente.DataNascimento = pacienteDTO.DataNascimento.HasValue ? pacienteDTO.DataNascimento.Value : pacienteExistente.DataNascimento;
+            pacienteExistente.CPF = pacienteDTO.CPF;
+            pacienteExistente.Telefone = pacienteDTO.Telefone;
+            pacienteExistente.ContatoEmergencia = pacienteDTO.ContatoEmergencia;
+            pacienteExistente.Alergias = string.Join(" | ", pacienteDTO.Alergias);
+            pacienteExistente.CuidadosEspecificos = string.Join(" | ", pacienteDTO.CuidadosEspecificos);
+            pacienteExistente.Convenio = pacienteDTO.Convenio;
+
+            try
+            {
+                // Salva as alterações na base de dados
+                _context.SaveChanges();
+
+                var response = new
+                {
+                    mensagem = "Paciente Atualizado com sucesso.",
+                    Identificador = pacienteExistente.Id,
+                    Atendimentos = new List<Paciente>(),
+                    Nome = pacienteExistente.NomeCompleto,
+                    Genero = pacienteExistente.Genero,
+                    DataNascimento = pacienteExistente.DataNascimento,
+                    CPF = pacienteExistente.CPF,
+                    Telefone = pacienteExistente.Telefone,
+                    ContatoEmergencia = pacienteExistente.ContatoEmergencia,
+                    Alergias = pacienteExistente.Alergias,
+                    CuidadosEspecificos = pacienteExistente.CuidadosEspecificos,
+                    Convenio = pacienteExistente.Convenio
+                };
+
+                return StatusCode( 201, response);
+            }
+            catch
+            {
+                return StatusCode(409, "Erro ao Atualizar Paciente.");
+            }
+        }
+
+        [HttpPut]
+        [Route("pacientes/{id}/status")]
+        public ActionResult AtualizarStatusAtendimento(int id, [FromBody] StatusAtendimentoDTO statusDTO)
+        {
+            var paciente = _context.Pacientes.Find(id);
+            if(paciente == null)
+            {
+                return StatusCode(404, "PACIENTE não encontrado na base de dados.");
+            }
+                // conversão explícita do valor do statusDTO para o tipo Paciente.StatusAtendimento 
+            paciente.statusAtendimento = (Paciente.StatusAtendimento)statusDTO.statusAtendimento;
+            
+            _context.Pacientes.Update(paciente);
             _context.SaveChanges();
 
-            return Ok("Paciente inserido com sucesso!");
+            return StatusCode(200, "Status de Atendimento Atualizado com Sucesso.");
         }
+
+
+        
+
+        
     }
 }

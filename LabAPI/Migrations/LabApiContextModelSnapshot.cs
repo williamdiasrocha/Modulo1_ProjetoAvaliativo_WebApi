@@ -194,6 +194,10 @@ namespace LabAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Alergias")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("ALERGIAS");
+
                     b.Property<string>("CPF")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
@@ -208,6 +212,10 @@ namespace LabAPI.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)")
                         .HasColumnName("CONVENIO");
+
+                    b.Property<string>("CuidadosEspecificos")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("CUIDADOS_ESPECIAIS");
 
                     b.Property<DateTime>("DataNascimento")
                         .HasColumnType("datetime2")
@@ -232,14 +240,6 @@ namespace LabAPI.Migrations
                         .HasColumnType("int")
                         .HasColumnName("TOTAL_ATENDIMENTOS");
 
-                    b.Property<string>("_Alergias")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("ALERGIAS");
-
-                    b.Property<string>("_CuidadosEspecificos")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("CUIDADOS_ESPECIAIS");
-
                     b.Property<int>("statusAtendimento")
                         .HasColumnType("int")
                         .HasColumnName("STATUS_ATENDIMENTO");
@@ -252,151 +252,151 @@ namespace LabAPI.Migrations
                         new
                         {
                             Id = 5,
+                            Alergias = "Rinite",
                             CPF = "523.252.349-08",
                             ContatoEmergencia = "4833259547",
                             Convenio = "Bradesco Saude",
+                            CuidadosEspecificos = "não possui",
                             DataNascimento = new DateTime(1980, 11, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Genero = "Masculino",
                             NomeCompleto = "Alexandre Lorenzo da Mota",
                             Telefone = "4828454720",
                             TotalAtendimentos = 0,
-                            _Alergias = "[\"Rinite\"]",
-                            _CuidadosEspecificos = "[\"não possui\"]",
                             statusAtendimento = 0
                         },
                         new
                         {
                             Id = 6,
+                            Alergias = "Asma Bronquica",
                             CPF = "142.154.935-28",
                             ContatoEmergencia = "4899631200",
                             Convenio = "One Health",
+                            CuidadosEspecificos = "faz uso regular da bombinha",
                             DataNascimento = new DateTime(1996, 7, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Genero = "Feminino",
                             NomeCompleto = "Gabrielly Vitória Sueli Lopes",
                             Telefone = "4830459633",
                             TotalAtendimentos = 0,
-                            _Alergias = "[\"Asma Bronquica\"]",
-                            _CuidadosEspecificos = "[\"faz uso regular da bombinha\"]",
                             statusAtendimento = 0
                         },
                         new
                         {
                             Id = 7,
+                            Alergias = "Leite e derivados",
                             CPF = "670.534.738-48",
                             ContatoEmergencia = "4836210056",
                             Convenio = "Unimed",
+                            CuidadosEspecificos = "faz reposição de hormonios",
                             DataNascimento = new DateTime(1975, 2, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Genero = "Feminino",
                             NomeCompleto = "Aurora Francisca Marcela Bernardes",
                             Telefone = "4833254796",
                             TotalAtendimentos = 0,
-                            _Alergias = "[\"Leite e derivados\"]",
-                            _CuidadosEspecificos = "[\"faz reposição de hormonios\"]",
                             statusAtendimento = 0
                         },
                         new
                         {
                             Id = 8,
+                            Alergias = "Frutos do Mar",
                             CPF = "709.924.665-80",
                             ContatoEmergencia = "4833002100",
                             Convenio = "One Health",
+                            CuidadosEspecificos = "não possui",
                             DataNascimento = new DateTime(1969, 12, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Genero = "Masculino",
                             NomeCompleto = "Manoel Renato Theo da Cunha",
                             Telefone = "4891224420",
                             TotalAtendimentos = 0,
-                            _Alergias = "[\"Frutos do Mar\"]",
-                            _CuidadosEspecificos = "[\"não possui\"]",
                             statusAtendimento = 0
                         },
                         new
                         {
                             Id = 9,
+                            Alergias = "Não possui",
                             CPF = "253.415.630-69",
                             ContatoEmergencia = "4833256612",
                             Convenio = "Unimed",
+                            CuidadosEspecificos = "não possui",
                             DataNascimento = new DateTime(1991, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Genero = "Feminino",
                             NomeCompleto = "Bruna Rosângela Francisca",
                             Telefone = "4899951120",
                             TotalAtendimentos = 0,
-                            _Alergias = "[\"Não possui\"]",
-                            _CuidadosEspecificos = "[\"não possui\"]",
                             statusAtendimento = 0
                         },
                         new
                         {
                             Id = 10,
+                            Alergias = "Urticária",
                             CPF = "506.250.120-44",
                             ContatoEmergencia = "4830459992",
                             Convenio = "Bradesco Saude",
+                            CuidadosEspecificos = "não possui",
                             DataNascimento = new DateTime(1993, 7, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Genero = "Masculino",
                             NomeCompleto = "Luiz Gustavo Costa",
                             Telefone = "4899220000",
                             TotalAtendimentos = 0,
-                            _Alergias = "[\"Urticária\"]",
-                            _CuidadosEspecificos = "[\"não possui\"]",
                             statusAtendimento = 0
                         },
                         new
                         {
                             Id = 11,
+                            Alergias = "Rinite, Bronquite, Camarão",
                             CPF = "513.327.137-93",
                             ContatoEmergencia = "48999520021",
                             Convenio = "SulAmérica Saude",
+                            CuidadosEspecificos = "não possui",
                             DataNascimento = new DateTime(1989, 9, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Genero = "Feminino",
                             NomeCompleto = "Mariana Daniela Aragão",
                             Telefone = "4833090054",
                             TotalAtendimentos = 0,
-                            _Alergias = "[\"Rinite, Bronquite, Camarão\"]",
-                            _CuidadosEspecificos = "[\"não possui\"]",
                             statusAtendimento = 0
                         },
                         new
                         {
                             Id = 12,
+                            Alergias = "Não possui",
                             CPF = "922.265.830-25",
                             ContatoEmergencia = "4833149951",
                             Convenio = "Bradesco Saude",
+                            CuidadosEspecificos = "não possui",
                             DataNascimento = new DateTime(1972, 7, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Genero = "Feminino",
                             NomeCompleto = "Emanuelly Regina",
                             Telefone = "48999195520",
                             TotalAtendimentos = 0,
-                            _Alergias = "[\"Não possui\"]",
-                            _CuidadosEspecificos = "[\"não possui\"]",
                             statusAtendimento = 0
                         },
                         new
                         {
                             Id = 13,
+                            Alergias = "Alergia a Niquel",
                             CPF = "867.882.944-37",
                             ContatoEmergencia = "4833133021",
                             Convenio = "One Health",
+                            CuidadosEspecificos = "não possui",
                             DataNascimento = new DateTime(1969, 12, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Genero = "Feminino",
                             NomeCompleto = "Jennifer Vanessa Marlene Peixoto",
                             Telefone = "48999000015",
                             TotalAtendimentos = 0,
-                            _Alergias = "[\"Alergia a Niquel\"]",
-                            _CuidadosEspecificos = "[\"não possui\"]",
                             statusAtendimento = 0
                         },
                         new
                         {
                             Id = 14,
+                            Alergias = "Camarão",
                             CPF = "750.120.356-20",
                             ContatoEmergencia = "4830492210",
                             Convenio = "SulAmérica Saude",
+                            CuidadosEspecificos = "não possui",
                             DataNascimento = new DateTime(1981, 4, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Genero = "Masculino",
                             NomeCompleto = "Joaquim Leandro Julio Silva",
                             Telefone = "4899101220",
                             TotalAtendimentos = 0,
-                            _Alergias = "[\"Camarão\"]",
-                            _CuidadosEspecificos = "[\"não possui\"]",
                             statusAtendimento = 0
                         });
                 });

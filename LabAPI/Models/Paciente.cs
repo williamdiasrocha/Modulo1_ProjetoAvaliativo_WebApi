@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
+using static LabAPI.DTO.StatusAtendimentoDTO;
 
 namespace LabAPI.Models
 {
@@ -12,10 +13,15 @@ namespace LabAPI.Models
         [Column("CUIDADOS_ESPECIAIS")] public string CuidadosEspecificos { get; set; } 
         [Column("CONVENIO"), MaxLength(30)] public string Convenio { get; set; }
         [Column("STATUS_ATENDIMENTO")] public StatusAtendimento statusAtendimento { get; set; }
-        [Column("TOTAL_ATENDIMENTOS")] public int TotalAtendimentos { get; set; }
+        [Column("TOTAL_ATENDIMENTOS")] public int TotalAtendimentos { get; set; } = 0;
       
 
 
+        public Paciente()
+        {
+            ContatoEmergencia = "N/A";
+        }
+        
         public enum StatusAtendimento
         {
             AguardandoAtendimento = 1,
@@ -23,12 +29,5 @@ namespace LabAPI.Models
             Atendido = 3,
             NaoAtendido = 4,
         }
-
-        public Paciente()
-        {
-            ContatoEmergencia = "N/A";
-        }
-        
-        
     }
 }

@@ -97,19 +97,19 @@ namespace LabAPI.Migrations
 
             migrationBuilder.InsertData(
                 table: "PACIENTES",
-                columns: new[] { "ID", "CPF", "CONTATO_EMERGENCIA", "CONVENIO", "DATA_NASCIMENTO", "GENERO", "NOME_COMPLETO", "TELEFONE", "TOTAL_ATENDIMENTOS", "ALERGIAS", "CUIDADOS_ESPECIAIS", "STATUS_ATENDIMENTO" },
+                columns: new[] { "ID", "ALERGIAS", "CPF", "CONTATO_EMERGENCIA", "CONVENIO", "CUIDADOS_ESPECIAIS", "DATA_NASCIMENTO", "GENERO", "NOME_COMPLETO", "TELEFONE", "TOTAL_ATENDIMENTOS", "STATUS_ATENDIMENTO" },
                 values: new object[,]
                 {
-                    { 5, "523.252.349-08", "4833259547", "Bradesco Saude", new DateTime(1980, 11, 26, 0, 0, 0, 0, DateTimeKind.Unspecified), "Masculino", "Alexandre Lorenzo da Mota", "4828454720", 0, "[\"Rinite\"]", "[\"não possui\"]", 0 },
-                    { 6, "142.154.935-28", "4899631200", "One Health", new DateTime(1996, 7, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), "Feminino", "Gabrielly Vitória Sueli Lopes", "4830459633", 0, "[\"Asma Bronquica\"]", "[\"faz uso regular da bombinha\"]", 0 },
-                    { 7, "670.534.738-48", "4836210056", "Unimed", new DateTime(1975, 2, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "Feminino", "Aurora Francisca Marcela Bernardes", "4833254796", 0, "[\"Leite e derivados\"]", "[\"faz reposição de hormonios\"]", 0 },
-                    { 8, "709.924.665-80", "4833002100", "One Health", new DateTime(1969, 12, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), "Masculino", "Manoel Renato Theo da Cunha", "4891224420", 0, "[\"Frutos do Mar\"]", "[\"não possui\"]", 0 },
-                    { 9, "253.415.630-69", "4833256612", "Unimed", new DateTime(1991, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), "Feminino", "Bruna Rosângela Francisca", "4899951120", 0, "[\"Não possui\"]", "[\"não possui\"]", 0 },
-                    { 10, "506.250.120-44", "4830459992", "Bradesco Saude", new DateTime(1993, 7, 9, 0, 0, 0, 0, DateTimeKind.Unspecified), "Masculino", "Luiz Gustavo Costa", "4899220000", 0, "[\"Urticária\"]", "[\"não possui\"]", 0 },
-                    { 11, "513.327.137-93", "48999520021", "SulAmérica Saude", new DateTime(1989, 9, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), "Feminino", "Mariana Daniela Aragão", "4833090054", 0, "[\"Rinite, Bronquite, Camarão\"]", "[\"não possui\"]", 0 },
-                    { 12, "922.265.830-25", "4833149951", "Bradesco Saude", new DateTime(1972, 7, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), "Feminino", "Emanuelly Regina", "48999195520", 0, "[\"Não possui\"]", "[\"não possui\"]", 0 },
-                    { 13, "867.882.944-37", "4833133021", "One Health", new DateTime(1969, 12, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), "Feminino", "Jennifer Vanessa Marlene Peixoto", "48999000015", 0, "[\"Alergia a Niquel\"]", "[\"não possui\"]", 0 },
-                    { 14, "750.120.356-20", "4830492210", "SulAmérica Saude", new DateTime(1981, 4, 26, 0, 0, 0, 0, DateTimeKind.Unspecified), "Masculino", "Joaquim Leandro Julio Silva", "4899101220", 0, "[\"Camarão\"]", "[\"não possui\"]", 0 }
+                    { 5, "Rinite", "523.252.349-08", "4833259547", "Bradesco Saude", "não possui", new DateTime(1980, 11, 26, 0, 0, 0, 0, DateTimeKind.Unspecified), "Masculino", "Alexandre Lorenzo da Mota", "4828454720", 0, 0 },
+                    { 6, "Asma Bronquica", "142.154.935-28", "4899631200", "One Health", "faz uso regular da bombinha", new DateTime(1996, 7, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), "Feminino", "Gabrielly Vitória Sueli Lopes", "4830459633", 0, 0 },
+                    { 7, "Leite e derivados", "670.534.738-48", "4836210056", "Unimed", "faz reposição de hormonios", new DateTime(1975, 2, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "Feminino", "Aurora Francisca Marcela Bernardes", "4833254796", 0, 0 },
+                    { 8, "Frutos do Mar", "709.924.665-80", "4833002100", "One Health", "não possui", new DateTime(1969, 12, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), "Masculino", "Manoel Renato Theo da Cunha", "4891224420", 0, 0 },
+                    { 9, "Não possui", "253.415.630-69", "4833256612", "Unimed", "não possui", new DateTime(1991, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), "Feminino", "Bruna Rosângela Francisca", "4899951120", 0, 0 },
+                    { 10, "Urticária", "506.250.120-44", "4830459992", "Bradesco Saude", "não possui", new DateTime(1993, 7, 9, 0, 0, 0, 0, DateTimeKind.Unspecified), "Masculino", "Luiz Gustavo Costa", "4899220000", 0, 0 },
+                    { 11, "Rinite, Bronquite, Camarão", "513.327.137-93", "48999520021", "SulAmérica Saude", "não possui", new DateTime(1989, 9, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), "Feminino", "Mariana Daniela Aragão", "4833090054", 0, 0 },
+                    { 12, "Não possui", "922.265.830-25", "4833149951", "Bradesco Saude", "não possui", new DateTime(1972, 7, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), "Feminino", "Emanuelly Regina", "48999195520", 0, 0 },
+                    { 13, "Alergia a Niquel", "867.882.944-37", "4833133021", "One Health", "não possui", new DateTime(1969, 12, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), "Feminino", "Jennifer Vanessa Marlene Peixoto", "48999000015", 0, 0 },
+                    { 14, "Camarão", "750.120.356-20", "4830492210", "SulAmérica Saude", "não possui", new DateTime(1981, 4, 26, 0, 0, 0, 0, DateTimeKind.Unspecified), "Masculino", "Joaquim Leandro Julio Silva", "4899101220", 0, 0 }
                 });
         }
 
