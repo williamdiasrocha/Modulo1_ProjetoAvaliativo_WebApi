@@ -15,9 +15,10 @@ namespace LabAPI.DTO
         public string Telefone { get; set; }  
         public string InstituicaoEnsinoFormacao { get; set; }
         public string CRM_UF { get; set; }
-        public List<Especializacao_Clinica> EspecializacaoClinica { get; set; } 
+        public List<string> EspecializacaoClinica { get; set; } 
         public EstadoSistema Estado_No_Sistema { get; set; }
         public int TotalAtendimentos { get; set; } = 0;
+        public Especializacao_Clinica Especializacao { get; set; }
 
 
 
@@ -33,14 +34,12 @@ namespace LabAPI.DTO
             Ortopedia = 8
         }
 
-     
-
-        
-
         public enum EstadoSistema
         {
             Inativo = 0,
             Ativo = 1
         }
+
+        
     }
 }

@@ -23,15 +23,15 @@ namespace LabAPI.DTO
 
          public enum StatusAtendimento
         {
-            [Display(Name = "Aguardando Atendimento")]
+            [Display(Name = "Aguardando Atendimento = 1")]
             AguardandoAtendimento = 1,
-            [Display(Name = "Em Atendimento")]
+            [Display(Name = "Em Atendimento = 2")]
             EmAtendimento = 2,
-            [Display(Name = "Atendido")]
+            [Display(Name = "Atendido = 3")]
             Atendido = 3,
-            [Display(Name = "Não Atendido")]
+            [Display(Name = "Não Atendido = 4")]
             NaoAtendido = 4,
-            [Display(Name = "Cancelado")]
+            [Display(Name = "Cancelado = 5")]
             Cancelado = 5
         }
          
