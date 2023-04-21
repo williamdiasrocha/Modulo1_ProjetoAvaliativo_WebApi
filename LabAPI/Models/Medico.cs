@@ -13,6 +13,7 @@ namespace LabAPI.Models
         [Column("ESTADO_NO_SISTEMA")] public EstadoSistema Estado_No_Sistema { get; set; }
         [Column("TOTAL_ATENDIMENTOS"), NotNull] public int TotalAtendimentos { get; set; }
 
+        
 
         public enum EspecializacaoClinica
         {

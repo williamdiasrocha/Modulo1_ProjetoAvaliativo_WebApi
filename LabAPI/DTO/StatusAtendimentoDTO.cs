@@ -18,7 +18,7 @@ namespace LabAPI.DTO
             Atendido = 3,
             NaoAtendido = 4,
         }     
-        
-
     }
+
+    
 }

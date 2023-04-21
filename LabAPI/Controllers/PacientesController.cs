@@ -231,9 +231,81 @@ namespace LabAPI.Controllers
                 Status = p.statusAtendimento.ToString()
             });
 
+            /* var resultadoEnfermeiros = Enfermeiros.ToList().Select(p => new
+            {
+                Identificador = p.Id,
+                Nome = p.NomeCompleto,
+                Genero = p.Genero,
+                DataNascimento = p.DataNascimento,
+                CPF = p.CPF,
+                Telefone = p.Telefone,
+                ContatoEmergencia = p.ContatoEmergencia,
+                Alergias = p.Alergias,
+                CuidadosEspecificos = p.CuidadosEspecificos,
+                Convenio = p.Convenio,
+                Status = p.statusAtendimento.ToString()
+            }); */
+
             return Ok(resultado);
         }
 
+        [HttpGet]
+        [Route("pacientes/{id})")]
+        public ActionResult ObterPorId(int id)
+        {
+              // BUSCAR O PACIENTE PELO ID INFORMADO
+              var paciente = _context.Pacientes.FirstOrDefault(p => p.Id == id);
+
+              // Verifica se o Paciente foi encontrado na base de dados
+              if (paciente == null)
+              {
+                return StatusCode(404, "Paciente não encontrado.");
+              }
+
+              // cria o objeto de resposta
+              var resposta = new
+              {
+                Identificador = paciente.Id,
+                Nome = paciente.NomeCompleto,
+                Genero = paciente.Genero,
+                DataNascimento = paciente.DataNascimento,
+                CPF = paciente.CPF,
+                Telefone = paciente.Telefone,
+                ContatoEmergencia = paciente.ContatoEmergencia,
+                Alergias = paciente.Alergias?.Split(" | "),
+                CuidadosEspecificos = paciente.CuidadosEspecificos?.Split(" | "),
+                Convenio = paciente.Convenio
+              };
+
+              // Retorna o paciente encontrado na base de dados
+              return Ok(resposta);
+        }
+
+        [HttpDelete]
+        [Route("pacientes/{id}")]
+        public ActionResult Delete(int id)
+        {
+            // Fazer a busca do paciente a ser excluido na base de dados pelo Id
+            var paciente = _context.Pacientes.FirstOrDefault(p => p.Id == id);
+            if (paciente == null)
+            {
+                return StatusCode(404, "Paciente não encontrado na base de dados");
+            }
+
+            try
+            {
+                // Remove o paciente na base de dados pelo ID
+                _context.Pacientes.Remove(paciente);
+                _context.SaveChanges();
+
+                // Retorna uma resposta de sucesso sem o corpo
+                return StatusCode(204, "Paciente Removido com Sucesso.");
+            }
+            catch
+            {
+                return StatusCode(500, "Erro ao excluir os registros do Paciente.");
+            }
+        }
         
     }
 }
