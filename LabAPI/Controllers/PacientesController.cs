@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using LabAPI.Models;
 using LabAPI.DTO;
 using Microsoft.AspNetCore.Mvc;
+using static LabAPI.DTO.AtualizacaoStatusDTO;
+using System.Linq;
 
 namespace LabAPI.Controllers
 {
@@ -160,32 +162,36 @@ namespace LabAPI.Controllers
             }
         }
 
-        [HttpPut]
-        [Route("pacientes/{identificador}/status")]
-        public ActionResult AtualizarStatusAtendimento(string identificador, [FromBody] StatusAtendimentoDTO statusAtendimentoDTO)
-       {
-            if (!int.TryParse(identificador, out var pacienteId))
-            {
-                return StatusCode(404, "Identificador Invalido.");
-            }
-
-            var paciente = _context.Pacientes.FirstOrDefault(x => x.Id == pacienteId);
+        [HttpPut("/api/pacientes/{identificador}/status")]
+        public ActionResult AtualizarStatusAtendimento(int identificador, [FromBody] AtualizacaoStatusDTO atualizacaoStatusDTO)
+        {
+            // Verifica se o paciente existe na base de dados
+            var paciente = _context.Pacientes.FirstOrDefault(x => x.Id == identificador);
             if (paciente == null)
             {
-                return StatusCode(404, "Paciente não encontrado.");
+                return NotFound("Paciente não encontrado.");
             }
 
-            string statusStr = statusAtendimentoDTO.statusAtendimento.ToString();
-            if(string.IsNullOrWhiteSpace(statusStr) || !Enum.TryParse(statusStr, out Paciente.StatusAtendimento statusAtendimento))
+            // Verifica se o campo status foi informado e se é válido
+            if (string.IsNullOrEmpty(atualizacaoStatusDTO.NovoStatus) || !Enum.TryParse<Paciente.StatusAtendimento>(atualizacaoStatusDTO.NovoStatus, out var novoStatus))
             {
-                return StatusCode(400, "Status Inválido");
+                return BadRequest("Status inválido.");
             }
 
-            
-            paciente.statusAtendimento = (Paciente.StatusAtendimento)statusAtendimento;
+            // Atualiza o status do paciente
+            paciente.statusAtendimento = novoStatus;
             _context.SaveChanges();
-            return Ok(paciente);
+
+            // Retorna os dados atualizados do paciente
+            return Ok(new StatusAtendimentoDTO
+            {
+                Id = paciente.Id,
+                NomeCompleto = paciente.NomeCompleto,
+                Status = paciente.statusAtendimento.ToString(),
+                OpcoesDisponiveis = EnumHelper.GetDisplayNames<Paciente.StatusAtendimento>()
+            });
         }
+    
 
 
         [HttpGet]
