@@ -4,6 +4,8 @@ using LabAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using static LabAPI.Models.Medico;
 using static LabAPI.DTO.MedicoDTO;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace LabAPI.Controllers
 {
@@ -100,7 +102,7 @@ namespace LabAPI.Controllers
                     CPF = medico.CPF,
                     Telefone = medico.Telefone,
                     CRM_UF = medico.CRM_UF,
-                    Especializacao_Clinica = medico.Especializacao_Clinica,
+                    Especializacao_Clinica = medico.Especializacao_Clinica.ToString(),
                     InstituicaoEnsinoFormacao = medico.InstituicaoEnsinoFormacao,
                     
                 };
@@ -187,7 +189,7 @@ namespace LabAPI.Controllers
                     CPF = medico.CPF,
                     Telefone = medico.Telefone,
                     CRM_UF = medico.CRM_UF,
-                    EspecializacaoClinica = medico.Especializacao_Clinica,
+                    EspecializacaoClinica = medico.Especializacao_Clinica.ToString(),
                     InstituicaoEnsinoFormacao = medico.InstituicaoEnsinoFormacao,
                     TotalAtendimentos = medico.TotalAtendimentos
                 };
@@ -197,6 +199,139 @@ namespace LabAPI.Controllers
             catch
             {
                 return StatusCode(409, "Erro ao atualizar o cadastro do médico.");
+            }
+        }
+
+        [HttpPut("/api/Medicos/{identificador}/status")]
+        public ActionResult AtualizarStatusMedico(int identificador, [FromBody] AtualizacaoStatusMedicoDTO atualizacaoStatusMedicoDTO)
+        {
+            // Verifica se o Medico existe na base de dados
+            var medico = _context.Medicos.FirstOrDefault(x => x.Id == identificador);
+            if (medico == null)
+            {
+                return StatusCode(404, "Medico não encontrado.");
+            }
+
+            // Verifica se o campo status foi informado e se é válido
+            if (string.IsNullOrEmpty(atualizacaoStatusMedicoDTO.NovoStatusM) || !Enum.TryParse<Medico.EstadoSistema>(atualizacaoStatusMedicoDTO.NovoStatusM, out var novoStatus))
+            {
+                return StatusCode(400, "Status inválido.");
+            }
+
+            // Atualiza o status do Medico
+            medico.Estado_No_Sistema = novoStatus;
+            _context.SaveChanges();
+
+            // Retorna os dados atualizados do Medico
+            return Ok(new StatusAtendimentoMedicoDTO
+            {
+                 
+                Id = medico.Id,
+                NomeCompleto = medico.NomeCompleto,
+                Status = medico.Estado_No_Sistema.ToString(),
+                StatusDisponiveis = EnumHelperMedico.GetDisplayNames<Medico.EstadoSistema>()
+            });
+        }
+
+        [HttpGet]
+        [Route("Medicos")]
+        public ActionResult Obter([FromQuery] string status = "", int? identificador = null)
+        {
+            var medicos = _context.Medicos.AsQueryable();
+
+            if(identificador.HasValue)
+            {
+                medicos = medicos.Where(p => p.Id == identificador.Value);
+            }
+            else if(!string.IsNullOrEmpty(status))
+            {
+                switch (status.ToUpper())
+                {
+                    case "ATIVO":
+                        medicos = medicos.Where(p => p.Estado_No_Sistema == Medico.EstadoSistema.Ativo);
+                        break;
+                    case "INATIVO":
+                        medicos = medicos.Where(p => p.Estado_No_Sistema == Medico.EstadoSistema.Inativo);
+                        break;
+                    default:
+                        return BadRequest("O Valor informado não é valido pra status");
+
+                }
+            }
+
+            var resultado = medicos.ToList().Select(p => new
+            {
+                Identificador = p.Id,
+                Nome = p.NomeCompleto,
+                Genero = p.Genero,
+                DataNascimento = p.DataNascimento,
+                CPF = p.CPF,
+                Telefone = p.Telefone,
+                CRM_UF = p.CRM_UF,
+                Especializacao_Clinica = p.Especializacao_Clinica,
+                InstituicaoEnsinoFormacao = p.InstituicaoEnsinoFormacao,
+                Status = p.Estado_No_Sistema.ToString()
+            });
+
+            
+            return Ok(resultado);
+        }
+
+        [HttpGet]
+        [Route("Medicos/{id})")]
+        public ActionResult ObterMedicoPorId(int id)
+        {
+              // BUSCAR O medico PELO ID INFORMADO
+              var medico = _context.Medicos.FirstOrDefault(p => p.Id == id);
+
+              // Verifica se o medico foi encontrado na base de dados
+              if (medico == null)
+              {
+                return StatusCode(404, "Medico não encontrado.");
+              }
+
+              // cria o objeto de resposta
+              var resposta = new
+              {
+                Identificador = medico.Id,
+                Nome = medico.NomeCompleto,
+                Genero = medico.Genero,
+                DataNascimento = medico.DataNascimento,
+                CPF = medico.CPF,
+                Telefone = medico.Telefone,
+                CRM_UF = medico.CRM_UF,
+                InstituicaoEnsinoFormacao = medico.InstituicaoEnsinoFormacao,
+                Especializacao_Clinica = medico.Especializacao_Clinica,
+                Status = medico.Estado_No_Sistema
+              };
+
+              // Retorna o medico encontrado na base de dados
+              return Ok(resposta);
+        }
+
+        [HttpDelete]
+        [Route("Medicos/{id}")]
+        public ActionResult Delete(int id)
+        {
+            // Fazer a busca do medico a ser excluido na base de dados pelo Id
+            var medico = _context.Medicos.FirstOrDefault(p => p.Id == id);
+            if (medico == null)
+            {
+                return StatusCode(404, "Medico não encontrado na base de dados");
+            }
+
+            try
+            {
+                // Remove o medico na base de dados pelo ID
+                _context.Medicos.Remove(medico);
+                _context.SaveChanges();
+
+                // Retorna uma resposta de sucesso sem o corpo
+                return StatusCode(204, "Médico Removido com Sucesso.");
+            }
+            catch
+            {
+                return StatusCode(500, "Erro ao excluir os registros do Médico.");
             }
         }
     }

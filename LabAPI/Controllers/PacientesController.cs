@@ -13,7 +13,7 @@ using System.Linq;
 namespace LabAPI.Controllers
 {
     [ApiController]
-    [Route("Api")]
+    [Route("api/[controller]")]
     public class PacientesController : ControllerBase
     {
         private readonly LabApiContext _context;
@@ -23,7 +23,7 @@ namespace LabAPI.Controllers
         }
 
         [HttpPost]
-        [Route("pacientes")]
+        [Route("Pacientes")]
         public ActionResult Inserir([FromBody] PacienteDTO pacienteDTO)
         {
             if (pacienteDTO == null)  // verifica se paciente é nulo
@@ -162,7 +162,7 @@ namespace LabAPI.Controllers
             }
         }
 
-        [HttpPut("/api/pacientes/{identificador}/status")]
+        [HttpPut("/api/Pacientes/{identificador}/status")]
         public ActionResult AtualizarStatusAtendimento(int identificador, [FromBody] AtualizacaoStatusDTO atualizacaoStatusDTO)
         {
             // Verifica se o paciente existe na base de dados
@@ -196,11 +196,15 @@ namespace LabAPI.Controllers
 
         [HttpGet]
         [Route("pacientes")]
-        public ActionResult Obter([FromQuery] string statusAtendimento)
+        public ActionResult Obter([FromQuery] string statusAtendimento = "", int? identificador = null)
         {
-            var pacientes = _context.Pacientes.AsQueryable();
+             var pacientes = _context.Pacientes.AsQueryable();
 
-            if(!string.IsNullOrEmpty(statusAtendimento))
+            if(identificador.HasValue)
+            {
+                pacientes = pacientes.Where(p => p.Id == identificador.Value);
+            }
+            else if(!string.IsNullOrEmpty(statusAtendimento))
             {
                 switch (statusAtendimento.ToUpper())
                 {
