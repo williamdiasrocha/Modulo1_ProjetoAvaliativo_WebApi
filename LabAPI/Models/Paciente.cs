@@ -16,6 +16,7 @@ namespace LabAPI.Models
         [Column("CONVENIO"), MaxLength(30)] public string Convenio { get; set; }
         [Column("STATUS_ATENDIMENTO")][JsonConverter(typeof(StringEnumConverter))] public StatusAtendimento statusAtendimento { get; set; }
         [Column("TOTAL_ATENDIMENTOS")] public int TotalAtendimentos { get; set; } = 0;
+        [Column ("ATENDIMENTO")] public List<Atendimento> Atendimentos { get; set; }
       
 
 

@@ -10,6 +10,7 @@ namespace LabAPI.DTO
 {
     public class PacienteDTO
     {
+        public int? Id { get; set; }
         public string NomeCompleto { get; set; }
         public string Genero { get; set; }
         public DateTime? DataNascimento { get; set; }
@@ -19,6 +20,10 @@ namespace LabAPI.DTO
         public List<string> Alergias { get; set; } = new List<string>();
         public List<string> CuidadosEspecificos { get; set; } = new List<string>();
         public string Convenio { get; set; }
+        public int TotalAtendimento { get; set; } = 0;
+        public string StatusAtendimentoNovo { get; set; }
+        public List<StatusAtendimento> Atendimentos { get; set; }
+        public List<Atendimento> Atendimento { get; set; }
         
 
          public enum StatusAtendimento
@@ -33,6 +38,16 @@ namespace LabAPI.DTO
             NaoAtendido = 4,
             [Display(Name = "Cancelado = 5")]
             Cancelado = 5
+        }
+
+        public PacienteDTO()
+        {
+
+        }
+        public PacienteDTO(Paciente paciente)
+        {
+            Id = paciente.Id;
+            NomeCompleto = paciente.NomeCompleto;
         }
          
 

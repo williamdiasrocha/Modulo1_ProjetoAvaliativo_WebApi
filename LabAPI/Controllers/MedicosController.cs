@@ -6,6 +6,7 @@ using static LabAPI.Models.Medico;
 using static LabAPI.DTO.MedicoDTO;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace LabAPI.Controllers
 {

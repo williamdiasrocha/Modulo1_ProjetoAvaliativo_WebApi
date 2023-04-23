@@ -2,12 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using LabAPI.Models;
 
 namespace LabAPI.DTO
 {
     public class MedicoDTO
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
         public string NomeCompleto { get; set; }
         public string Genero { get; set; }
         public DateTime? DataNascimento { get; set; }
@@ -19,7 +20,8 @@ namespace LabAPI.DTO
         public EstadoSistema Estado_No_Sistema { get; set; }
         public int TotalAtendimentos { get; set; } = 0;
         public Especializacao_Clinica Especializacao { get; set; }
-
+        public List<AtendimentoDTO> AtendimentosMedico { get; set; }  
+    
 
 
         public enum Especializacao_Clinica
@@ -40,6 +42,15 @@ namespace LabAPI.DTO
             Ativo = 1
         }
 
+        public MedicoDTO()
+        {
+
+        }
+
+        public MedicoDTO (Medico medico)
+        {
+            
+        }
         
     }
 }
