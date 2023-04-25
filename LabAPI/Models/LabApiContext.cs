@@ -18,24 +18,19 @@ namespace LabApi.Models
     public DbSet<MedicoModel> Medicos { get; set; }
     public DbSet<EnfermeiroModel> Enfermeiros { get; set; }
     public DbSet<AtendimentoModel> Atendimentos { get; set; }
-    public DbSet<AtendimentoModel> Atendimento { get; set; }
+    
     
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            /* modelBuilder.Entity<Paciente>()
-            .HasNoKey()
-            .Property(Paciente => Paciente.Alergias)
-            .HasConversion(new ValueConverter<List<string>, string>(
-                v => JsonConvert.SerializeObject(v),
-                v => JsonConvert.DeserializeObject<List<string>>(v))); 
-            
-            modelBuilder.Entity<Paciente>()
-            .HasNoKey()
-            .Property(Paciente => Paciente.CuidadosEspecificos)
-            .HasConversion(new ValueConverter<List<string>, string>(
-                v => JsonConvert.SerializeObject(v),
-                v => JsonConvert.DeserializeObject<List<string>>(v)));  */
+           /*  modelBuilder.Entity<PacienteModel>()
+                .Property(x => x.Alergias)
+                .HasConversion(c => string.Join(',', c),
+                               c => c.Split(',', StringSplitOptions.RemoveEmptyEntries).ToList());
+            modelBuilder.Entity<PacienteModel>()
+                .Property(x => x.CuidadosEspecificos)
+                .HasConversion(c => string.Join(',', c),
+                               c => c.Split(',', StringSplitOptions.RemoveEmptyEntries).ToList()); */
 
             modelBuilder.Seed();
         }

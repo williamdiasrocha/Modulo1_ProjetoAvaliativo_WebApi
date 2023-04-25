@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 using LabApi.Models;
@@ -8,6 +10,7 @@ namespace LabApi.DTOS
 {
     public class MedicoDTO
     {
+        [Key]
         public int? Id { get; set; }
         public string NomeMedico { get; set; }
         public string Genero { get; set; }
@@ -16,11 +19,12 @@ namespace LabApi.DTOS
         public string Telefone { get; set; }  
         public string InstituicaoEnsinoFormacao { get; set; }
         public string CRM_UF { get; set; }
+        [ForeignKey("Especializacao_Id")] 
+        public int Especializacao_Id { get; set; }
         public List<string> EspecializacaoClinica { get; set; } 
-        public EstadoSistema Estado_No_Sistema { get; set; }
+        
         public int TotalAtendimentos { get; set; } = 0;
-        public Especializacao_Clinica Especializacao { get; set; }
-        public List<AtendimentoDTO> AtendimentosMedico { get; set; }  
+       
     
 
 

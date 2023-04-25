@@ -11,11 +11,13 @@ namespace LabApi.Models
     [Table("ATENDIMENTOS")]
     public class AtendimentoModel
     {
-        [Column("ID_ATEND"), Required] public int IdAtendimento { get; set; }
+        [Column("ID_ATEND"), Key] public int IdAtendimento { get; set; }
         [Column("PACIENTE")] public PacienteDTO Paciente { get; set; }
         
         [Column("MEDICO")] public MedicoDTO Medico { get; set; }
         [Column("DATA_ATEND")] public DateTime DataAtendimento { get; set; }
+        [ForeignKey("Atendimentos_Id")] 
+        public int AtendimentoId { get; set; }
         [Column("LISTA_ATENDIMENTO")] public List<AtendimentoModel> Atendimentos { get; set; }
         
     }
