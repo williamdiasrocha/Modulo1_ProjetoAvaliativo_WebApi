@@ -2,15 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Threading.Tasks;
-using LabAPI.Models;
-using static LabAPI.DTO.PacienteDTO;
-using LabAPI.Controllers;
-using System.Text.Json.Serialization;
-using Newtonsoft.Json.Converters;
 using System.Reflection;
+using System.Threading.Tasks;
 
-namespace LabAPI.DTO
+namespace LabApi.DTOS
 {
     public class StatusAtendimentoDTO
     {
@@ -44,7 +39,4 @@ namespace LabAPI.DTO
         return displayNames;
         }
     }
-   
 }
-   
-    

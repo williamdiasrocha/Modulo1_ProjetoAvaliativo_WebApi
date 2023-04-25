@@ -2,14 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using LabAPI.Models;
+using LabApi.Models;
 
-namespace LabAPI.DTO
+namespace LabApi.DTOS
 {
     public class MedicoDTO
     {
         public int? Id { get; set; }
-        public string NomeCompleto { get; set; }
+        public string NomeMedico { get; set; }
         public string Genero { get; set; }
         public DateTime? DataNascimento { get; set; }
         public string CPF { get; set; }
@@ -47,10 +47,9 @@ namespace LabAPI.DTO
 
         }
 
-        public MedicoDTO (Medico medico)
+        public MedicoDTO (MedicoModel medico)
         {
             
         }
-        
     }
 }

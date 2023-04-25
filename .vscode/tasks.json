@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/LabAPI.csproj",
+                "${workspaceFolder}/LabApi/LabApi.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -19,7 +19,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/LabAPI.csproj",
+                "${workspaceFolder}/LabApi/LabApi.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -33,7 +33,7 @@
                 "watch",
                 "run",
                 "--project",
-                "${workspaceFolder}/LabAPI.csproj"
+                "${workspaceFolder}/LabApi/LabApi.csproj"
             ],
             "problemMatcher": "$msCompile"
         }

@@ -1,16 +1,13 @@
-using System.Reflection.Emit;
-using System.Text.RegularExpressions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using LabAPI.Models;
-using LabAPI.DTO;
+using LabApi.DTOS;
+using LabApi.Models;
 using Microsoft.AspNetCore.Mvc;
-using static LabAPI.DTO.AtualizacaoStatusDTO;
-using System.Linq;
 
-namespace LabAPI.Controllers
+namespace LabApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
@@ -72,7 +69,7 @@ namespace LabAPI.Controllers
             try
             {
                 // Insere o paciente no banco de dados
-                var paciente = new Paciente()
+                var paciente = new PacienteModel()
                 {  
                     NomeCompleto = pacienteDTO.NomeCompleto,
                     DataNascimento = pacienteDTO.DataNascimento.Value,
@@ -90,8 +87,8 @@ namespace LabAPI.Controllers
                 var response = new
                 {
                     mensagem = "Paciente inserido com sucesso!",
-                    Identificador = paciente.Id,
-                    Atendimentos = new List<Paciente>(),
+                    Identificador = paciente.IdPessoa,
+                    Atendimentos = new List<PacienteModel>(),
                     Nome = paciente.NomeCompleto,
                     Genero = paciente.Genero,
                     DataNascimento = paciente.DataNascimento,
@@ -116,7 +113,7 @@ namespace LabAPI.Controllers
         public ActionResult Atualizar(int id, [FromBody] PacienteDTO pacienteDTO)
         {
             // Verificação se o paciente com o ID está inserido dentro do banco de dados pacientes.
-            var pacienteExistente = _context.Pacientes.FirstOrDefault(x => x.Id == id);
+            var pacienteExistente = _context.Pacientes.FirstOrDefault(x => x.IdPessoa == id);
             if (pacienteExistente ==  null)
             {
                 return StatusCode(404, "PACIENTE não encontrado na base de dados.");
@@ -141,8 +138,8 @@ namespace LabAPI.Controllers
                 var response = new
                 {
                     mensagem = "Paciente Atualizado com sucesso.",
-                    Identificador = pacienteExistente.Id,
-                    Atendimentos = new List<Paciente>(),
+                    Identificador = pacienteExistente.IdPessoa,
+                    Atendimentos = new List<PacienteModel>(),
                     Nome = pacienteExistente.NomeCompleto,
                     Genero = pacienteExistente.Genero,
                     DataNascimento = pacienteExistente.DataNascimento,
@@ -166,14 +163,14 @@ namespace LabAPI.Controllers
         public ActionResult AtualizarStatusAtendimento(int identificador, [FromBody] AtualizacaoStatusDTO atualizacaoStatusDTO)
         {
             // Verifica se o paciente existe na base de dados
-            var paciente = _context.Pacientes.FirstOrDefault(x => x.Id == identificador);
+            var paciente = _context.Pacientes.FirstOrDefault(x => x.IdPessoa == identificador);
             if (paciente == null)
             {
                 return NotFound("Paciente não encontrado.");
             }
 
             // Verifica se o campo status foi informado e se é válido
-            if (string.IsNullOrEmpty(atualizacaoStatusDTO.NovoStatus) || !Enum.TryParse<Paciente.StatusAtendimento>(atualizacaoStatusDTO.NovoStatus, out var novoStatus))
+            if (string.IsNullOrEmpty(atualizacaoStatusDTO.NovoStatus) || !Enum.TryParse<PacienteModel.StatusAtendimento>(atualizacaoStatusDTO.NovoStatus, out var novoStatus))
             {
                 return BadRequest("Status inválido.");
             }
@@ -185,10 +182,10 @@ namespace LabAPI.Controllers
             // Retorna os dados atualizados do paciente
             return Ok(new StatusAtendimentoDTO
             {
-                Id = paciente.Id,
+                Id = paciente.IdPessoa,
                 NomeCompleto = paciente.NomeCompleto,
                 Status = paciente.statusAtendimento.ToString(),
-                OpcoesDisponiveis = EnumHelper.GetDisplayNames<Paciente.StatusAtendimento>()
+                OpcoesDisponiveis = EnumHelper.GetDisplayNames<PacienteModel.StatusAtendimento>()
             });
         }
     
@@ -202,23 +199,23 @@ namespace LabAPI.Controllers
 
             if(identificador.HasValue)
             {
-                pacientes = pacientes.Where(p => p.Id == identificador.Value);
+                pacientes = pacientes.Where(p => p.IdPessoa == identificador.Value);
             }
             else if(!string.IsNullOrEmpty(statusAtendimento))
             {
                 switch (statusAtendimento.ToUpper())
                 {
                     case "AGUARDANDO_ATENDIMENTO":
-                        pacientes = pacientes.Where(p => p.statusAtendimento == Paciente.StatusAtendimento.AguardandoAtendimento);
+                        pacientes = pacientes.Where(p => p.statusAtendimento == PacienteModel.StatusAtendimento.AguardandoAtendimento);
                         break;
                     case "EM_ATENDIMENTO":
-                        pacientes = pacientes.Where(p => p.statusAtendimento == Paciente.StatusAtendimento.EmAtendimento);
+                        pacientes = pacientes.Where(p => p.statusAtendimento == PacienteModel.StatusAtendimento.EmAtendimento);
                         break;
                     case "ATENDIDO":
-                        pacientes = pacientes.Where(p => p.statusAtendimento == Paciente.StatusAtendimento.Atendido);
+                        pacientes = pacientes.Where(p => p.statusAtendimento == PacienteModel.StatusAtendimento.Atendido);
                         break;
                     case "NÂO_ATENDIDO":
-                        pacientes = pacientes.Where(p => p.statusAtendimento == Paciente.StatusAtendimento.NaoAtendido);
+                        pacientes = pacientes.Where(p => p.statusAtendimento == PacienteModel.StatusAtendimento.NaoAtendido);
                         break;
                     default:
                         return BadRequest("O Valor informado não é valido");
@@ -228,7 +225,7 @@ namespace LabAPI.Controllers
 
             var resultado = pacientes.ToList().Select(p => new
             {
-                Identificador = p.Id,
+                Identificador = p.IdPessoa,
                 Nome = p.NomeCompleto,
                 Genero = p.Genero,
                 DataNascimento = p.DataNascimento,
@@ -241,20 +238,7 @@ namespace LabAPI.Controllers
                 Status = p.statusAtendimento.ToString()
             });
 
-            /* var resultadoEnfermeiros = Enfermeiros.ToList().Select(p => new
-            {
-                Identificador = p.Id,
-                Nome = p.NomeCompleto,
-                Genero = p.Genero,
-                DataNascimento = p.DataNascimento,
-                CPF = p.CPF,
-                Telefone = p.Telefone,
-                ContatoEmergencia = p.ContatoEmergencia,
-                Alergias = p.Alergias,
-                CuidadosEspecificos = p.CuidadosEspecificos,
-                Convenio = p.Convenio,
-                Status = p.statusAtendimento.ToString()
-            }); */
+            
 
             return Ok(resultado);
         }
@@ -264,7 +248,7 @@ namespace LabAPI.Controllers
         public ActionResult ObterPorId(int id)
         {
               // BUSCAR O PACIENTE PELO ID INFORMADO
-              var paciente = _context.Pacientes.FirstOrDefault(p => p.Id == id);
+              var paciente = _context.Pacientes.FirstOrDefault(p => p.IdPessoa == id);
 
               // Verifica se o Paciente foi encontrado na base de dados
               if (paciente == null)
@@ -275,7 +259,7 @@ namespace LabAPI.Controllers
               // cria o objeto de resposta
               var resposta = new
               {
-                Identificador = paciente.Id,
+                Identificador = paciente.IdPessoa,
                 Nome = paciente.NomeCompleto,
                 Genero = paciente.Genero,
                 DataNascimento = paciente.DataNascimento,
@@ -296,7 +280,7 @@ namespace LabAPI.Controllers
         public ActionResult Delete(int id)
         {
             // Fazer a busca do paciente a ser excluido na base de dados pelo Id
-            var paciente = _context.Pacientes.FirstOrDefault(p => p.Id == id);
+            var paciente = _context.Pacientes.FirstOrDefault(p => p.IdPessoa == id);
             if (paciente == null)
             {
                 return StatusCode(404, "Paciente não encontrado na base de dados");
@@ -317,5 +301,6 @@ namespace LabAPI.Controllers
             }
         }
         
+    
     }
 }

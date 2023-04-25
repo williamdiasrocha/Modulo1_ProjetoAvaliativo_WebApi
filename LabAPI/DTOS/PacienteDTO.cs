@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
-using LabAPI.Models;
-using static LabAPI.Models.Paciente;
+using LabApi.Models;
 
-namespace LabAPI.DTO
+namespace LabApi.DTOS
 {
     public class PacienteDTO
     {
@@ -23,7 +22,7 @@ namespace LabAPI.DTO
         public int TotalAtendimento { get; set; } = 0;
         public string StatusAtendimentoNovo { get; set; }
         public List<StatusAtendimento> Atendimentos { get; set; }
-        public List<Atendimento> Atendimento { get; set; }
+        public List<AtendimentoModel> Atendimento { get; set; }
         
 
          public enum StatusAtendimento
@@ -44,14 +43,10 @@ namespace LabAPI.DTO
         {
 
         }
-        public PacienteDTO(Paciente paciente)
+        public PacienteDTO(PacienteModel paciente)
         {
-            Id = paciente.Id;
+            Id = paciente.IDPACIENTE;
             NomeCompleto = paciente.NomeCompleto;
         }
-         
-
-          
-        
     }
 }

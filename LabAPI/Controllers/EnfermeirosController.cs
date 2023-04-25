@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using LabAPI.DTO;
-using LabAPI.Models;
+using LabApi.DTOS;
+using LabApi.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace LabAPI.Controllers
+namespace LabApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
@@ -65,7 +65,7 @@ namespace LabAPI.Controllers
             }
 
                 // Insere o Enfermeiro no banco de dados
-                var enfermeiro = new Enfermeiro()
+                var enfermeiro = new EnfermeiroModel()
                 {  
                     
                     NomeCompleto = enfermeiroDTO.NomeCompleto,
@@ -86,7 +86,7 @@ namespace LabAPI.Controllers
                 {
                     mensagem = "Enfermeiro inserido com sucesso!",
                     Identificador = enfermeiroDTO.Id,
-                    Atendimentos = new List<Enfermeiro>(),
+                    Atendimentos = new List<EnfermeiroModel>(),
                     Nome = enfermeiroDTO.NomeCompleto,
                     Genero = enfermeiroDTO.Genero,
                     DataNascimento = enfermeiroDTO.DataNascimento,
@@ -108,7 +108,7 @@ namespace LabAPI.Controllers
         [HttpPut("{identificador}")]
         public ActionResult AtualizarEnfermeiro(int id, [FromBody] EnfermeiroDTO enfermeiroDTO)
         {
-            var enfermeiro = _context.Enfermeiros.FirstOrDefault(m => m.Id == id);
+            var enfermeiro = _context.Enfermeiros.FirstOrDefault(m => m.IdPessoa == id);
             if (enfermeiro == null)
             {
                 return StatusCode(404, "Enfermeiro não encontrado");
@@ -137,7 +137,7 @@ namespace LabAPI.Controllers
             {
                 return StatusCode(400, "CPF deve conter apenas números e ter 11 dígitos");
             }
-            if(_context.Medicos.Any(m => m.CPF == enfermeiroDTO.CPF && m.Id != id))
+            if(_context.Medicos.Any(m => m.CPF == enfermeiroDTO.CPF && m.IdPessoa != id))
             {
                 return StatusCode(409, "CPF já cadastrado na base de dados.");
             }
@@ -164,7 +164,7 @@ namespace LabAPI.Controllers
                 var resposta = new
                 {
                     mensagem = "Médico atualizado com sucesso.",
-                    Identificador = enfermeiro.Id,
+                    Identificador = enfermeiro.IdPessoa,
                     Nome = enfermeiro.NomeCompleto,
                     Genero = enfermeiro.Genero,
                     DataNascimento = enfermeiro.DataNascimento,
@@ -188,7 +188,7 @@ namespace LabAPI.Controllers
         {
             var enfermeiros = _context.Enfermeiros.Select(e => new EnfermeiroDTO
             {
-                Id = e.Id,
+                Id = e.IdPessoa,
                 NomeCompleto = e.NomeCompleto,
                 Genero = e.Genero,
                 DataNascimento = e.DataNascimento,
@@ -205,13 +205,13 @@ namespace LabAPI.Controllers
         public ActionResult<EnfermeiroDTO> Get(int id)
         {
             var enfermeiroDTO = new EnfermeiroDTO();
-            var enfermeiro = _context.Enfermeiros.FirstOrDefault(e => e.Id == id);
+            var enfermeiro = _context.Enfermeiros.FirstOrDefault(e => e.IdPessoa == id);
             if(enfermeiro == null)
             {
                 return StatusCode(404, "Enfermeiro não encontrado na base de dados,");
             }
 
-            enfermeiroDTO.Id = enfermeiro.Id;
+            enfermeiroDTO.Id = enfermeiro.IdPessoa;
             enfermeiroDTO.NomeCompleto = enfermeiro.NomeCompleto;
             enfermeiroDTO.Genero = enfermeiro.Genero;
             enfermeiroDTO.DataNascimento = enfermeiro.DataNascimento;
@@ -227,7 +227,7 @@ namespace LabAPI.Controllers
         public ActionResult DeleteEnfermeiro(int id)
         {
             // Fazer a busca do enfermeiro a ser excluido na base de dados pelo Id
-            var enfermeiro = _context.Enfermeiros.FirstOrDefault(p => p.Id == id);
+            var enfermeiro = _context.Enfermeiros.FirstOrDefault(p => p.IdPessoa == id);
             if (enfermeiro == null)
             {
                 return StatusCode(404, "Enfermeiro não encontrado na base de dados");

@@ -1,11 +1,7 @@
-using System.Diagnostics.SymbolStore;
-using LabAPI.Models;
-using LabAPI.Profiles;
+using LabApi.Models;
 using Microsoft.EntityFrameworkCore;
 
-
 var builder = WebApplication.CreateBuilder(args);
-
 
 // Add services to the container.
 
@@ -16,8 +12,6 @@ builder.Services.AddSwaggerGen();
 
 string connectionString = "Server=DESKTOP-D0KS0IT\\SQLEXPRESS;Database=labmedicinebd;Trusted_Connection=True;TrustServerCertificate=True;";
 builder.Services.AddDbContext<LabApiContext>(o => o.UseSqlServer(connectionString));
-
-builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 
 var app = builder.Build();
 
@@ -34,8 +28,4 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-
-
 app.Run();
-
-

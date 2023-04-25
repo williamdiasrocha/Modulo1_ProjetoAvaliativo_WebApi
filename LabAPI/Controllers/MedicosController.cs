@@ -1,14 +1,14 @@
-using System.Text.RegularExpressions;
-using LabAPI.DTO;
-using LabAPI.Models;
-using Microsoft.AspNetCore.Mvc;
-using static LabAPI.Models.Medico;
-using static LabAPI.DTO.MedicoDTO;
-using Microsoft.EntityFrameworkCore;
-using System.Linq;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using LabApi.DTOS;
+using LabApi.Models;
+using Microsoft.AspNetCore.Mvc;
+using static LabApi.Models.MedicoModel;
 
-namespace LabAPI.Controllers
+namespace LabApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
@@ -29,12 +29,12 @@ namespace LabAPI.Controllers
                 return StatusCode(400, "Médico não informado.");
             }
 
-            if (string.IsNullOrWhiteSpace(medicoDTO.NomeCompleto)) 
+            if (string.IsNullOrWhiteSpace(medicoDTO.NomeMedico)) 
             {
                 return StatusCode(400, "Nome completo não inserido. Favor preencher com dados válidos.");
             }
 
-            if (Regex.IsMatch(medicoDTO.NomeCompleto, @"\d")) 
+            if (Regex.IsMatch(medicoDTO.NomeMedico, @"\d")) 
             {
                 return StatusCode(400, "O nome completo deve conter apenas letras.");
             }
@@ -74,10 +74,10 @@ namespace LabAPI.Controllers
                 
 
                 // Insere o paciente no banco de dados
-                var medico = new Medico()
+                var medico = new MedicoModel()
                 {  
                     
-                    NomeCompleto = medicoDTO.NomeCompleto,
+                    NomeCompleto = medicoDTO.NomeMedico,
                     DataNascimento = medicoDTO.DataNascimento.Value,
                     CPF = medicoDTO.CPF,          
                     CRM_UF = medicoDTO.CRM_UF,
@@ -95,8 +95,8 @@ namespace LabAPI.Controllers
                 var response = new
                 {
                     mensagem = "Paciente inserido com sucesso!",
-                    Identificador = medico.Id,
-                    Atendimentos = new List<Medico>(),
+                    Identificador = medico.IdPessoa,
+                    Atendimentos = new List<MedicoModel>(),
                     Nome = medico.NomeCompleto,
                     Genero = medico.Genero,
                     DataNascimento = medico.DataNascimento,
@@ -119,7 +119,7 @@ namespace LabAPI.Controllers
         [HttpPut("{identificador}")]
         public ActionResult AtualizarMedico(int id, [FromBody] MedicoDTO medicoDTO)
         {
-            var medico = _context.Medicos.FirstOrDefault(m => m.Id == id);
+            var medico = _context.Medicos.FirstOrDefault(m => m.IdPessoa == id);
             if (medico == null)
             {
                 return StatusCode(404, "Médico não encontrado");
@@ -128,11 +128,11 @@ namespace LabAPI.Controllers
             {
                 return StatusCode(400, "Dados do médico não informados.");
             }
-            if(string.IsNullOrWhiteSpace(medicoDTO.NomeCompleto))
+            if(string.IsNullOrWhiteSpace(medicoDTO.NomeMedico))
             {
                 return StatusCode(400, "Nome completo não inserido. Favor preencher com dados válidos.");
             }
-            if (Regex.IsMatch(medicoDTO.NomeCompleto, @"\d"))
+            if (Regex.IsMatch(medicoDTO.NomeMedico, @"\d"))
             {
                 return StatusCode (400, "O nome completo deve conter apenas letras.");
             }
@@ -148,7 +148,7 @@ namespace LabAPI.Controllers
             {
                 return StatusCode(400, "CPF deve conter apenas números e ter 11 dígitos");
             }
-            if(_context.Medicos.Any(m => m.CPF == medicoDTO.CPF && m.Id != id))
+            if(_context.Medicos.Any(m => m.CPF == medicoDTO.CPF && m.IdPessoa != id))
             {
                 return StatusCode(409, "CPF já cadastrado na base de dados.");
             }
@@ -166,7 +166,7 @@ namespace LabAPI.Controllers
                 }
             }
 
-            medico.NomeCompleto = medicoDTO.NomeCompleto;
+            medico.NomeCompleto = medicoDTO.NomeMedico;
             medico.DataNascimento = medicoDTO.DataNascimento.Value;
             medico.CPF = medicoDTO.CPF;
             medico.CRM_UF = medicoDTO.CRM_UF;
@@ -183,7 +183,7 @@ namespace LabAPI.Controllers
                 var resposta = new
                 {
                     mensagem = "Médico atualizado com sucesso.",
-                    Identificador = medico.Id,
+                    Identificador = medico.IdPessoa,
                     Nome = medico.NomeCompleto,
                     Genero = medico.Genero,
                     DataNascimento = medico.DataNascimento,
@@ -207,14 +207,14 @@ namespace LabAPI.Controllers
         public ActionResult AtualizarStatusMedico(int identificador, [FromBody] AtualizacaoStatusMedicoDTO atualizacaoStatusMedicoDTO)
         {
             // Verifica se o Medico existe na base de dados
-            var medico = _context.Medicos.FirstOrDefault(x => x.Id == identificador);
+            var medico = _context.Medicos.FirstOrDefault(x => x.IdPessoa == identificador);
             if (medico == null)
             {
                 return StatusCode(404, "Medico não encontrado.");
             }
 
             // Verifica se o campo status foi informado e se é válido
-            if (string.IsNullOrEmpty(atualizacaoStatusMedicoDTO.NovoStatusM) || !Enum.TryParse<Medico.EstadoSistema>(atualizacaoStatusMedicoDTO.NovoStatusM, out var novoStatus))
+            if (string.IsNullOrEmpty(atualizacaoStatusMedicoDTO.NovoStatusM) || !Enum.TryParse<MedicoModel.EstadoSistema>(atualizacaoStatusMedicoDTO.NovoStatusM, out var novoStatus))
             {
                 return StatusCode(400, "Status inválido.");
             }
@@ -227,10 +227,10 @@ namespace LabAPI.Controllers
             return Ok(new StatusAtendimentoMedicoDTO
             {
                  
-                Id = medico.Id,
+                Id = medico.IdPessoa,
                 NomeCompleto = medico.NomeCompleto,
                 Status = medico.Estado_No_Sistema.ToString(),
-                StatusDisponiveis = EnumHelperMedico.GetDisplayNames<Medico.EstadoSistema>()
+                StatusDisponiveis = EnumHelperMedico.GetDisplayNames<MedicoModel.EstadoSistema>()
             });
         }
 
@@ -242,17 +242,17 @@ namespace LabAPI.Controllers
 
             if(identificador.HasValue)
             {
-                medicos = medicos.Where(p => p.Id == identificador.Value);
+                medicos = medicos.Where(p => p.IdPessoa == identificador.Value);
             }
             else if(!string.IsNullOrEmpty(status))
             {
                 switch (status.ToUpper())
                 {
                     case "ATIVO":
-                        medicos = medicos.Where(p => p.Estado_No_Sistema == Medico.EstadoSistema.Ativo);
+                        medicos = medicos.Where(p => p.Estado_No_Sistema == MedicoModel.EstadoSistema.Ativo);
                         break;
                     case "INATIVO":
-                        medicos = medicos.Where(p => p.Estado_No_Sistema == Medico.EstadoSistema.Inativo);
+                        medicos = medicos.Where(p => p.Estado_No_Sistema == MedicoModel.EstadoSistema.Inativo);
                         break;
                     default:
                         return BadRequest("O Valor informado não é valido pra status");
@@ -262,7 +262,7 @@ namespace LabAPI.Controllers
 
             var resultado = medicos.ToList().Select(p => new
             {
-                Identificador = p.Id,
+                Identificador = p.IdPessoa,
                 Nome = p.NomeCompleto,
                 Genero = p.Genero,
                 DataNascimento = p.DataNascimento,
@@ -283,7 +283,7 @@ namespace LabAPI.Controllers
         public ActionResult ObterMedicoPorId(int id)
         {
               // BUSCAR O medico PELO ID INFORMADO
-              var medico = _context.Medicos.FirstOrDefault(p => p.Id == id);
+              var medico = _context.Medicos.FirstOrDefault(p => p.IdPessoa == id);
 
               // Verifica se o medico foi encontrado na base de dados
               if (medico == null)
@@ -294,7 +294,7 @@ namespace LabAPI.Controllers
               // cria o objeto de resposta
               var resposta = new
               {
-                Identificador = medico.Id,
+                Identificador = medico.IdPessoa,
                 Nome = medico.NomeCompleto,
                 Genero = medico.Genero,
                 DataNascimento = medico.DataNascimento,
@@ -315,7 +315,7 @@ namespace LabAPI.Controllers
         public ActionResult Delete(int id)
         {
             // Fazer a busca do medico a ser excluido na base de dados pelo Id
-            var medico = _context.Medicos.FirstOrDefault(p => p.Id == id);
+            var medico = _context.Medicos.FirstOrDefault(p => p.IdPessoa == id);
             if (medico == null)
             {
                 return StatusCode(404, "Medico não encontrado na base de dados");

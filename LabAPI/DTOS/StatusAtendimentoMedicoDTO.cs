@@ -5,11 +5,11 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace LabAPI.DTO
+namespace LabApi.DTOS
 {
     public class StatusAtendimentoMedicoDTO
     {
-        public int Id { get; set; }
+         public int Id { get; set; }
         public string NomeCompleto { get; set; }
         public string Status { get; set; }
         

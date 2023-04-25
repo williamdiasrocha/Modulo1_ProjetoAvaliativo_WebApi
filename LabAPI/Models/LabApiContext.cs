@@ -1,25 +1,24 @@
-using LabAPI.DTO;
-using LabAPI.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Newtonsoft.Json;
 
-
-namespace LabAPI.Models
+namespace LabApi.Models
 {
     public class LabApiContext : DbContext
     {
-    public LabApiContext(DbContextOptions<LabApiContext> options) : base(options)
+         public LabApiContext(DbContextOptions<LabApiContext> options) : base(options)
         {
         
         }
 
     
-    public DbSet<Paciente> Pacientes { get; set; }
-    public DbSet<Medico> Medicos { get; set; }
-    public DbSet<Enfermeiro> Enfermeiros { get; set; }
-    public DbSet<AtendimentoDTO> Atendimentos { get; set; }
-    public DbSet<Atendimento> Atendimento { get; set; }
+    public DbSet<PacienteModel> Pacientes { get; set; }
+    public DbSet<MedicoModel> Medicos { get; set; }
+    public DbSet<EnfermeiroModel> Enfermeiros { get; set; }
+    public DbSet<AtendimentoModel> Atendimentos { get; set; }
+    public DbSet<AtendimentoModel> Atendimento { get; set; }
     
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -41,6 +40,6 @@ namespace LabAPI.Models
             modelBuilder.Seed();
         }
     }
-
     
 }
+    
