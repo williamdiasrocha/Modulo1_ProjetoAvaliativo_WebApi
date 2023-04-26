@@ -18,25 +18,20 @@ namespace LabApi.Controllers
             _context = context;
         }
         [HttpPut]
-        public ActionResult Put(int IDPACIENTE, int MedicoId, AtendimentoDTO atendimento )
+        public ActionResult Put(int pacienteId, int medicoId)
         {
-            if (atendimento == null)
-            {
-                return BadRequest();
-            }
-
             // Procurar pelo paciente pelo Id
-            var pacienteModel = _context.Pacientes.FirstOrDefault(p => p.IdPessoa == atendimento.PacienteId);
+            var pacienteModel = _context.Pacientes.FirstOrDefault(p => p.IdPessoa == pacienteId);
             if (pacienteModel == null)
             {
-                return NotFound($"Paciente com código {atendimento.PacienteId} não encontrado");
+                return NotFound($"Paciente com código {pacienteId} não encontrado");
             }
 
             // Procurar pelo médico pelo Id
-            var medicoModel = _context.Medicos.FirstOrDefault(m => m.IDMEDICO == atendimento.MedicoId);
+            var medicoModel = _context.Medicos.FirstOrDefault(m => m.IdPessoa == medicoId);
             if (medicoModel == null)
             {
-                return NotFound($"Médico com código {atendimento.MedicoId} não encontrado");
+                return NotFound($"Médico com código {medicoId} não encontrado");
             }
 
             // Incrementar os atributos do atendimento
@@ -54,8 +49,10 @@ namespace LabApi.Controllers
             {
                 PacienteId = pacienteModel.IdPessoa,
                 NomePaciente = pacienteModel.NomeCompleto,
-                MedicoId = medicoModel.IDMEDICO,
-                NomeMedico = medicoModel.NomeCompleto
+                MedicoId = medicoModel.IdPessoa,
+                NomeMedico = medicoModel.NomeCompleto,
+                StatusAtendimento = pacienteModel.statusAtendimento.ToString(),
+                DataAtendimento = DateTime.Now
             };
 
             return Ok(atendimentoDTO);

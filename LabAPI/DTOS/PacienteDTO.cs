@@ -5,9 +5,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 using LabApi.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace LabApi.DTOS
 {
+    
     public class PacienteDTO
     {
         public int? Id { get; set; }

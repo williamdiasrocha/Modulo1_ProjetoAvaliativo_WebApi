@@ -10,7 +10,7 @@ namespace LabApi.DTOS
 {
     public class MedicoDTO
     {
-        [Key]
+        
         public int? Id { get; set; }
         public string NomeMedico { get; set; }
         public string Genero { get; set; }

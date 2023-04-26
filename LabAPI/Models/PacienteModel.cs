@@ -11,7 +11,7 @@ namespace LabApi.Models
     [Table("PACIENTES")]
     public class PacienteModel : PessoaModel
     {
-        [Column("ID_PACIENTE"), Required] public int IDPACIENTE { get; set; }
+        
         [Column("CONTATO_EMERGENCIA"), Required] public string ContatoEmergencia { get; set; }
         [Column("ALERGIAS")] public string Alergias { get; set; } 
         [Column("CUIDADOS_ESPECIAIS")] public string CuidadosEspecificos { get; set; } 
