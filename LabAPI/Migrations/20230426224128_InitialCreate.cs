@@ -55,7 +55,6 @@ namespace LabApi.Migrations
                 columns: table => new
                 {
                     ID_PESSOA = table.Column<int>(type: "int", nullable: false),
-                    ID_MEDICO = table.Column<int>(type: "int", nullable: false),
                     INSTITUIÇÃO_ENSINO_FORMACAO = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CRMUF = table.Column<string>(name: "CRM/UF", type: "nvarchar(max)", nullable: false),
                     ESPECIALIZACAO_CLINICA = table.Column<int>(type: "int", nullable: false),
@@ -78,7 +77,6 @@ namespace LabApi.Migrations
                 columns: table => new
                 {
                     ID_PESSOA = table.Column<int>(type: "int", nullable: false),
-                    ID_PACIENTE = table.Column<int>(type: "int", nullable: false),
                     CONTATO_EMERGENCIA = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ALERGIAS = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CUIDADOS_ESPECIAIS = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -158,28 +156,28 @@ namespace LabApi.Migrations
 
             migrationBuilder.InsertData(
                 table: "MEDICOS",
-                columns: new[] { "ID_PESSOA", "CRM/UF", "ESPECIALIZACAO_CLINICA", "ESTADO_NO_SISTEMA", "ID_MEDICO", "INSTITUIÇÃO_ENSINO_FORMACAO", "TOTAL_ATENDIMENTOS" },
+                columns: new[] { "ID_PESSOA", "CRM/UF", "ESPECIALIZACAO_CLINICA", "ESTADO_NO_SISTEMA", "INSTITUIÇÃO_ENSINO_FORMACAO", "TOTAL_ATENDIMENTOS" },
                 values: new object[,]
                 {
-                    { 1, "215.630/RJ", 1, 1, 0, "URJ", 0 },
-                    { 2, "125.541/SC", 5, 1, 0, "UDESC", 0 }
+                    { 1, "215.630/RJ", 1, 1, "URJ", 0 },
+                    { 2, "125.541/SC", 5, 1, "UDESC", 0 }
                 });
 
             migrationBuilder.InsertData(
                 table: "PACIENTES",
-                columns: new[] { "ID_PESSOA", "ALERGIAS", "CONTATO_EMERGENCIA", "CONVENIO", "CUIDADOS_ESPECIAIS", "ID_PACIENTE", "StatusAtendId", "StatusId", "TOTAL_ATENDIMENTOS", "STATUS_ATENDIMENTO" },
+                columns: new[] { "ID_PESSOA", "ALERGIAS", "CONTATO_EMERGENCIA", "CONVENIO", "CUIDADOS_ESPECIAIS", "StatusAtendId", "StatusId", "TOTAL_ATENDIMENTOS", "STATUS_ATENDIMENTO" },
                 values: new object[,]
                 {
-                    { 5, "Rinite", "4833259547", "Bradesco Saude", "não possui", 0, 0, 0, 0, 0 },
-                    { 6, "Asma Bronquica", "4899631200", "One Health", "faz uso regular da bombinha", 0, 0, 0, 0, 0 },
-                    { 7, "Leite e derivados", "4836210056", "Unimed", "faz reposição de hormonios", 0, 0, 0, 0, 0 },
-                    { 8, "Frutos do Mar", "4833002100", "One Health", "não possui", 0, 0, 0, 0, 0 },
-                    { 9, "Não possui", "4833256612", "Unimed", "não possui", 0, 0, 0, 0, 0 },
-                    { 10, "Urticária", "4830459992", "Bradesco Saude", "não possui", 0, 0, 0, 0, 0 },
-                    { 11, "Rinite, Bronquite, Camarão", "48999520021", "SulAmérica Saude", "não possui", 0, 0, 0, 0, 0 },
-                    { 12, "Não possui", "4833149951", "Bradesco Saude", "não possui", 0, 0, 0, 0, 0 },
-                    { 13, "Alergia a Niquel", "4833133021", "One Health", "não possui", 0, 0, 0, 0, 0 },
-                    { 14, "Camarão", "4830492210", "SulAmérica Saude", "não possui", 0, 0, 0, 0, 0 }
+                    { 5, "Rinite", "4833259547", "Bradesco Saude", "não possui", 0, 0, 0, 0 },
+                    { 6, "Asma Bronquica", "4899631200", "One Health", "faz uso regular da bombinha", 0, 0, 0, 0 },
+                    { 7, "Leite e derivados", "4836210056", "Unimed", "faz reposição de hormonios", 0, 0, 0, 0 },
+                    { 8, "Frutos do Mar", "4833002100", "One Health", "não possui", 0, 0, 0, 0 },
+                    { 9, "Não possui", "4833256612", "Unimed", "não possui", 0, 0, 0, 0 },
+                    { 10, "Urticária", "4830459992", "Bradesco Saude", "não possui", 0, 0, 0, 0 },
+                    { 11, "Rinite, Bronquite, Camarão", "48999520021", "SulAmérica Saude", "não possui", 0, 0, 0, 0 },
+                    { 12, "Não possui", "4833149951", "Bradesco Saude", "não possui", 0, 0, 0, 0 },
+                    { 13, "Alergia a Niquel", "4833133021", "One Health", "não possui", 0, 0, 0, 0 },
+                    { 14, "Camarão", "4830492210", "SulAmérica Saude", "não possui", 0, 0, 0, 0 }
                 });
 
             migrationBuilder.CreateIndex(

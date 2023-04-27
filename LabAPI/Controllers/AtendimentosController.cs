@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using LabApi.DTOS;
+using LabApi.Enums;
 using LabApi.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -39,7 +40,7 @@ namespace LabApi.Controllers
             medicoModel.TotalAtendimentos++;
 
             // Alterar o status do paciente para "Atendido"
-            pacienteModel.statusAtendimento = PacienteModel.StatusAtendimento.Atendido;
+            pacienteModel.statusAtendimento = StatusAtendimento.Atendido;
 
             // Salvar as alterações no banco de dados
             _context.SaveChanges();

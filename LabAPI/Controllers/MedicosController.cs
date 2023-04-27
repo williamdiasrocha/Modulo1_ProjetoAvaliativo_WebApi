@@ -4,8 +4,10 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using LabApi.DTOS;
+using LabApi.Enums;
 using LabApi.Models;
 using Microsoft.AspNetCore.Mvc;
+using static LabApi.DTOS.MedicoDTO;
 using static LabApi.Models.MedicoModel;
 
 namespace LabApi.Controllers
@@ -64,16 +66,16 @@ namespace LabApi.Controllers
                 return StatusCode(400, "CRM_UF é um item obrigatório.");
             }
 
-            List<EspecializacaoClinica> especializacoes = new List<EspecializacaoClinica>();
+            List<Especializacao_Clinica> especializacoes = new List<Especializacao_Clinica>();
                 foreach (var item in medicoDTO.EspecializacaoClinica)
             {
-                var especializacao = (EspecializacaoClinica)Enum.Parse(typeof(EspecializacaoClinica), item);
+                var especializacao = (Especializacao_Clinica)Enum.Parse(typeof(Especializacao_Clinica), item);
                 especializacoes.Add(especializacao);
             }
 
                 
 
-                // Insere o paciente no banco de dados
+                // Insere o medico no banco de dados
                 var medico = new MedicoModel()
                 {  
                     
@@ -85,7 +87,8 @@ namespace LabApi.Controllers
                     Telefone = medicoDTO.Telefone,
                     Especializacao_Clinica = especializacoes.FirstOrDefault(),
                     InstituicaoEnsinoFormacao = string.Join("|", medicoDTO.InstituicaoEnsinoFormacao),               
-                    TotalAtendimentos = medicoDTO.TotalAtendimentos
+                    TotalAtendimentos = medicoDTO.TotalAtendimentos,
+                    Estado_No_Sistema = EstadoSistema.Ativo
                 };
             try
             {
@@ -94,7 +97,7 @@ namespace LabApi.Controllers
 
                 var response = new
                 {
-                    mensagem = "Paciente inserido com sucesso!",
+                    mensagem = "Medico inserido com sucesso!",
                     Identificador = medico.IdPessoa,
                     Atendimentos = new List<MedicoModel>(),
                     Nome = medico.NomeCompleto,
@@ -103,8 +106,9 @@ namespace LabApi.Controllers
                     CPF = medico.CPF,
                     Telefone = medico.Telefone,
                     CRM_UF = medico.CRM_UF,
-                    Especializacao_Clinica = medico.Especializacao_Clinica.ToString(),
+                    Especializacao_Clinica = medico.Especializacao_Clinica,
                     InstituicaoEnsinoFormacao = medico.InstituicaoEnsinoFormacao,
+                    EstadoSistema = EstadoSistema.Ativo.ToString()
                     
                 };
 
@@ -112,7 +116,7 @@ namespace LabApi.Controllers
             }
             catch
             {
-                return StatusCode(409, "Erro ao inserir Paciente.");
+                return StatusCode(409, "Erro ao inserir Medico.");
             }
         }
 
@@ -157,10 +161,10 @@ namespace LabApi.Controllers
                 return StatusCode(400, "CRM_UF é um item obrigatório.");
             }
 
-            var especializacoes = new List<EspecializacaoClinica>();
+            var especializacoes = new List<Especializacao_Clinica>();
             foreach (var item in medicoDTO.EspecializacaoClinica)
             {
-                if (Enum.TryParse(item.ToString(), out EspecializacaoClinica especializacao))
+                if (Enum.TryParse(item.ToString(), out Especializacao_Clinica especializacao))
                 {
                     especializacoes.Add(especializacao);
                 }
@@ -192,7 +196,8 @@ namespace LabApi.Controllers
                     CRM_UF = medico.CRM_UF,
                     EspecializacaoClinica = medico.Especializacao_Clinica.ToString(),
                     InstituicaoEnsinoFormacao = medico.InstituicaoEnsinoFormacao,
-                    TotalAtendimentos = medico.TotalAtendimentos
+                    TotalAtendimentos = medico.TotalAtendimentos,
+                    Estado_No_Sistema = medico.Estado_No_Sistema.ToString()
                 };
 
                 return StatusCode(200, resposta);
@@ -214,7 +219,7 @@ namespace LabApi.Controllers
             }
 
             // Verifica se o campo status foi informado e se é válido
-            if (string.IsNullOrEmpty(atualizacaoStatusMedicoDTO.NovoStatusM) || !Enum.TryParse<MedicoModel.EstadoSistema>(atualizacaoStatusMedicoDTO.NovoStatusM, out var novoStatus))
+            if (string.IsNullOrEmpty(atualizacaoStatusMedicoDTO.NovoStatusM) || !Enum.TryParse<EstadoSistema>(atualizacaoStatusMedicoDTO.NovoStatusM, out var novoStatus))
             {
                 return StatusCode(400, "Status inválido.");
             }
@@ -230,7 +235,7 @@ namespace LabApi.Controllers
                 Id = medico.IdPessoa,
                 NomeCompleto = medico.NomeCompleto,
                 Status = medico.Estado_No_Sistema.ToString(),
-                StatusDisponiveis = EnumHelperMedico.GetDisplayNames<MedicoModel.EstadoSistema>()
+                StatusDisponiveis = Enum.GetNames(typeof(EstadoSistema)).ToList()
             });
         }
 
@@ -249,10 +254,10 @@ namespace LabApi.Controllers
                 switch (status.ToUpper())
                 {
                     case "ATIVO":
-                        medicos = medicos.Where(p => p.Estado_No_Sistema == MedicoModel.EstadoSistema.Ativo);
+                        medicos = medicos.Where(p => p.Estado_No_Sistema == EstadoSistema.Ativo);
                         break;
                     case "INATIVO":
-                        medicos = medicos.Where(p => p.Estado_No_Sistema == MedicoModel.EstadoSistema.Inativo);
+                        medicos = medicos.Where(p => p.Estado_No_Sistema == EstadoSistema.Inativo);
                         break;
                     default:
                         return BadRequest("O Valor informado não é valido pra status");

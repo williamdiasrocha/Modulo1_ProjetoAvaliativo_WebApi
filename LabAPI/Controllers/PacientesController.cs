@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using LabApi.DTOS;
+using LabApi.Enums;
 using LabApi.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -46,19 +47,16 @@ namespace LabApi.Controllers
             {
                 return StatusCode(400, "CPF com erro.");
             }
-            if(pacienteDTO.CPF.Length != 11)
+            if (!Regex.IsMatch(pacienteDTO.CPF, @"^\d{11}$")) 
             {
-                return StatusCode(400, "CPF deve conter exatamente 11 números.");
+                return StatusCode(400, "CPF deve conter apenas números e ter 11 dígitos.");
             }
             // Verifica se o CPF já existe no Banco de Dados
             if(_context.Pacientes.Any(x => x.CPF == pacienteDTO.CPF))
             {
                 return StatusCode(409, "CPF já existe.");
             }          
-            if(!Regex.IsMatch(pacienteDTO.CPF, @"^\d+S"))
-            {
-                return StatusCode(400, "CPF deve conter apenas números.");
-            }
+            
                 
             
                 
@@ -95,8 +93,8 @@ namespace LabApi.Controllers
                     CPF = paciente.CPF,
                     Telefone = paciente.Telefone,
                     ContatoEmergencia = paciente.ContatoEmergencia,
-                    Alergias = paciente.Alergias,
-                    CuidadosEspecificos = paciente.CuidadosEspecificos,
+                    Alergias = string.Join("|", paciente.Alergias),
+                    CuidadosEspecificos = string.Join("|", paciente.CuidadosEspecificos),
                     Convenio = paciente.Convenio
                 };
 
@@ -112,6 +110,38 @@ namespace LabApi.Controllers
         [Route("pacientes/{id}")]
         public ActionResult Atualizar(int id, [FromBody] PacienteDTO pacienteDTO)
         {
+            if (pacienteDTO == null)  // verifica se paciente é nulo
+            {
+                return StatusCode(400, "Paciente não informado.");
+            }
+            if (Regex.IsMatch(pacienteDTO.NomeCompleto, @"\d")) // verifica se a string NomeCompleto possui algum número
+            {
+                return StatusCode(400, "O Nome Completo deve conter apenas letras.");
+            }
+            // Verifica se os campos obrigatórios foram preenchidos
+            if(string.IsNullOrWhiteSpace(pacienteDTO.NomeCompleto))
+            {
+                return StatusCode(400, "Nome completo não inseridos. Favor preencher com dados válidos.");
+            }
+            
+            if( pacienteDTO.DataNascimento == null || pacienteDTO.DataNascimento == DateTime.MinValue )
+            {
+                return StatusCode(400, "Data de Nascimento não informado.");
+            }
+
+            if( string.IsNullOrWhiteSpace(pacienteDTO.CPF))
+            {
+                return StatusCode(400, "CPF com erro.");
+            }
+            if (!Regex.IsMatch(pacienteDTO.CPF, @"^\d{11}$")) 
+            {
+                return StatusCode(400, "CPF deve conter apenas números e ter 11 dígitos.");
+            }
+            
+            if (string.IsNullOrEmpty(pacienteDTO.ContatoEmergencia)) 
+            {
+                return StatusCode(400, "Contato de Emergência é item obrigatório.");
+            }
             // Verificação se o paciente com o ID está inserido dentro do banco de dados pacientes.
             var pacienteExistente = _context.Pacientes.FirstOrDefault(x => x.IdPessoa == id);
             if (pacienteExistente ==  null)
@@ -162,31 +192,37 @@ namespace LabApi.Controllers
         [HttpPut("/api/Pacientes/{identificador}/status")]
         public ActionResult AtualizarStatusAtendimento(int identificador, [FromBody] AtualizacaoStatusDTO atualizacaoStatusDTO)
         {
-            // Verifica se o paciente existe na base de dados
-            var paciente = _context.Pacientes.FirstOrDefault(x => x.IdPessoa == identificador);
-            if (paciente == null)
-            {
-                return NotFound("Paciente não encontrado.");
-            }
+             // Verifica se o paciente existe na base de dados
+        var paciente = _context.Pacientes.FirstOrDefault(x => x.IdPessoa == identificador);
+        if (paciente == null)
+        {
+            return NotFound("Paciente não encontrado.");
+        }
+        
+        // Verifica se o campo status foi informado e se é válido
+        if (string.IsNullOrWhiteSpace(atualizacaoStatusDTO.NovoStatus))
+        {
+            return BadRequest("Status inválido.");
+        }
 
-            // Verifica se o campo status foi informado e se é válido
-            if (string.IsNullOrEmpty(atualizacaoStatusDTO.NovoStatus) || !Enum.TryParse<PacienteModel.StatusAtendimento>(atualizacaoStatusDTO.NovoStatus, out var novoStatus))
-            {
-                return BadRequest("Status inválido.");
-            }
+        StatusAtendimento novoStatus;
+        if (!Enum.TryParse(atualizacaoStatusDTO.NovoStatus, out novoStatus))
+        {
+            return BadRequest("Status inválido.");
+        }
 
-            // Atualiza o status do paciente
-            paciente.statusAtendimento = novoStatus;
-            _context.SaveChanges();
+        // Atualiza o status do paciente
+        paciente.statusAtendimento = novoStatus;
+        _context.SaveChanges();
 
-            // Retorna os dados atualizados do paciente
-            return Ok(new StatusAtendimentoDTO
-            {
-                Id = paciente.IdPessoa,
-                NomeCompleto = paciente.NomeCompleto,
-                Status = paciente.statusAtendimento.ToString(),
-                OpcoesDisponiveis = EnumHelper.GetDisplayNames<PacienteModel.StatusAtendimento>()
-            });
+        // Retorna os dados atualizados do paciente
+        return Ok(new StatusAtendimentoDTO
+        {
+            Id = paciente.IdPessoa,
+            NomeCompleto = paciente.NomeCompleto,
+            Status = paciente.statusAtendimento.ToString(),
+            OpcoesDisponiveis = Enum.GetNames(typeof(StatusAtendimento)).ToList()
+        });
         }
     
 
@@ -206,16 +242,16 @@ namespace LabApi.Controllers
                 switch (statusAtendimento.ToUpper())
                 {
                     case "AGUARDANDO_ATENDIMENTO":
-                        pacientes = pacientes.Where(p => p.statusAtendimento == PacienteModel.StatusAtendimento.AguardandoAtendimento);
+                        pacientes = pacientes.Where(p => p.statusAtendimento == StatusAtendimento.AguardandoAtendimento);
                         break;
                     case "EM_ATENDIMENTO":
-                        pacientes = pacientes.Where(p => p.statusAtendimento == PacienteModel.StatusAtendimento.EmAtendimento);
+                        pacientes = pacientes.Where(p => p.statusAtendimento == StatusAtendimento.EmAtendimento);
                         break;
                     case "ATENDIDO":
-                        pacientes = pacientes.Where(p => p.statusAtendimento == PacienteModel.StatusAtendimento.Atendido);
+                        pacientes = pacientes.Where(p => p.statusAtendimento == StatusAtendimento.Atendido);
                         break;
                     case "NÂO_ATENDIDO":
-                        pacientes = pacientes.Where(p => p.statusAtendimento == PacienteModel.StatusAtendimento.NaoAtendido);
+                        pacientes = pacientes.Where(p => p.statusAtendimento == StatusAtendimento.NaoAtendido);
                         break;
                     default:
                         return BadRequest("O Valor informado não é valido");

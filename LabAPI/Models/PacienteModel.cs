@@ -5,6 +5,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using LabApi.Enums;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
+using Newtonsoft.Json.Converters;
 
 namespace LabApi.Models
 {
@@ -18,11 +21,12 @@ namespace LabApi.Models
         [Column("CONVENIO"), MaxLength(30)] public string Convenio { get; set; }
         [ForeignKey("Status_Id")] 
         public int StatusAtendId { get; set; }
+        [JsonConverter(typeof(StringEnumConverter))]
         [Column("STATUS_ATENDIMENTO")] public StatusAtendimento statusAtendimento { get; set; }
         [Column("TOTAL_ATENDIMENTOS")] public int TotalAtendimentos { get; set; } = 0;
         [ForeignKey("Status_Id")] 
         public int StatusId { get; set; }
-        [Column ("ATENDIMENTO")] public List<AtendimentoModel> Atendimentos { get; set; }
+        
       
 
 
@@ -30,24 +34,6 @@ namespace LabApi.Models
         {
             ContatoEmergencia = "N/A";
         }
-        public PacienteModel(string contatoEmergencia, string cuidadosEspecificos, StatusAtendimento statusAtendimento) 
-        {
-            this.ContatoEmergencia = contatoEmergencia;
-            this.CuidadosEspecificos = cuidadosEspecificos;
-            this.statusAtendimento = statusAtendimento;
-        }
-
-        // Método para retornar as opções do enum
-        public enum StatusAtendimento
-        {
-            [Display(Name = "Aguardando Atendimento")]
-            AguardandoAtendimento = 1,
-            [Display(Name = "Em Atendimento")]
-            EmAtendimento = 2,
-            [Display(Name = "Atendido")]
-            Atendido = 3,
-            [Display(Name = "Não Atendido")]
-            NaoAtendido = 4,
-        }
-    }
+       
+    }    
 }

@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using LabApi.Enums;
 using Microsoft.EntityFrameworkCore;
+using static LabApi.DTOS.MedicoDTO;
 
 namespace LabApi.Models
 {
@@ -86,12 +88,12 @@ namespace LabApi.Models
         modelBuilder.Entity<MedicoModel>().HasData(
             new MedicoModel 
             { 
-                IdPessoa = 1, NomeCompleto = "Julia Vitória Barros", DataNascimento = new DateTime(1989, 11, 23), Genero = "Feminino", CPF = "140.159.530-14", Telefone = "48999201511", InstituicaoEnsinoFormacao = "URJ", CRM_UF = "215.630/RJ", Especializacao_Clinica = MedicoModel.EspecializacaoClinica.Clinico_Geral, Estado_No_Sistema = MedicoModel.EstadoSistema.Ativo, TotalAtendimentos = 0
+                IdPessoa = 1, NomeCompleto = "Julia Vitória Barros", DataNascimento = new DateTime(1989, 11, 23), Genero = "Feminino", CPF = "140.159.530-14", Telefone = "48999201511", InstituicaoEnsinoFormacao = "URJ", CRM_UF = "215.630/RJ", Especializacao_Clinica = Especializacao_Clinica.Clinico_Geral, Estado_No_Sistema = EstadoSistema.Ativo, TotalAtendimentos = 0
             },
 
             new MedicoModel 
             { 
-                IdPessoa = 2, NomeCompleto = "Lorenzo Benedito Monteiro", DataNascimento = new DateTime(1989, 11, 23), Genero = "Masculino", CPF = "198.230.852-99", Telefone = "48992015021", InstituicaoEnsinoFormacao = "UDESC", CRM_UF = "125.541/SC", Especializacao_Clinica = MedicoModel.EspecializacaoClinica.Neurologia, Estado_No_Sistema = MedicoModel.EstadoSistema.Ativo, TotalAtendimentos = 0
+                IdPessoa = 2, NomeCompleto = "Lorenzo Benedito Monteiro", DataNascimento = new DateTime(1989, 11, 23), Genero = "Masculino", CPF = "198.230.852-99", Telefone = "48992015021", InstituicaoEnsinoFormacao = "UDESC", CRM_UF = "125.541/SC", Especializacao_Clinica = Especializacao_Clinica.Neurologia, Estado_No_Sistema = EstadoSistema.Ativo, TotalAtendimentos = 0
             });
         }
     }

@@ -12,7 +12,7 @@ namespace LabApi.DTOS
     
     public class PacienteDTO
     {
-        public int? Id { get; set; }
+        
         public string NomeCompleto { get; set; }
         public string Genero { get; set; }
         public DateTime? DataNascimento { get; set; }
