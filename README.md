@@ -33,7 +33,7 @@
 Para iniciar o aplicativo começamos pelo [Entity Framework Core] usando os comandos abaixo para a instalação das dependências e iniciar o servidor.
 
 
-```dotnet add package Microsoft.EntityFrameworkCore.Sqlite``
+```dotnet add package Microsoft.EntityFrameworkCore.Sqlite```
 
 
 Na sequência instalaremos o[Express.JS] usando os comando abaixo: 
