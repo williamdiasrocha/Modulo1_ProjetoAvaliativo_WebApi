@@ -95,7 +95,8 @@ namespace LabApi.Controllers
                     ContatoEmergencia = paciente.ContatoEmergencia,
                     Alergias = string.Join("|", paciente.Alergias),
                     CuidadosEspecificos = string.Join("|", paciente.CuidadosEspecificos),
-                    Convenio = paciente.Convenio
+                    Convenio = paciente.Convenio,
+                    StatusAtendimento = paciente.statusAtendimento
                 };
 
                 return StatusCode( 201, response);
@@ -229,28 +230,28 @@ namespace LabApi.Controllers
 
         [HttpGet]
         [Route("BuscarPaciente")]
-        public ActionResult Obter([FromQuery] string statusAtendimento = "", int? identificador = null)
+        public ActionResult Obter([FromQuery] string statusAtendimento = "")
         {
              var pacientes = _context.Pacientes.AsQueryable();
 
-            if(identificador.HasValue)
+            if (string.IsNullOrEmpty(statusAtendimento))
             {
-                pacientes = pacientes.Where(p => p.IdPessoa == identificador.Value);
+                return StatusCode(400, "StatusAtendimento não pode ser vazio ou nulo.");
             }
             else if(!string.IsNullOrEmpty(statusAtendimento))
             {
                 switch (statusAtendimento.ToUpper())
                 {
-                    case "AGUARDANDO_ATENDIMENTO":
+                    case "AGUARDANDOATENDIMENTO":
                         pacientes = pacientes.Where(p => p.statusAtendimento == StatusAtendimento.AguardandoAtendimento);
                         break;
-                    case "EM_ATENDIMENTO":
+                    case "EMATENDIMENTO":
                         pacientes = pacientes.Where(p => p.statusAtendimento == StatusAtendimento.EmAtendimento);
                         break;
                     case "ATENDIDO":
                         pacientes = pacientes.Where(p => p.statusAtendimento == StatusAtendimento.Atendido);
                         break;
-                    case "NÂO_ATENDIDO":
+                    case "NAOATENDIDO":
                         pacientes = pacientes.Where(p => p.statusAtendimento == StatusAtendimento.NaoAtendido);
                         break;
                     default:
@@ -283,6 +284,7 @@ namespace LabApi.Controllers
         [Route("BuscarPaciente/{id})")]
         public ActionResult ObterPorId(int id)
         {
+            
               // BUSCAR O PACIENTE PELO ID INFORMADO
               var paciente = _context.Pacientes.FirstOrDefault(p => p.IdPessoa == id);
 

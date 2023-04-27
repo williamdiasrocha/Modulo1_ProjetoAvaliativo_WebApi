@@ -31,47 +31,47 @@ namespace LabApi.Models
             
             new PacienteModel 
             { 
-                IdPessoa = 6, NomeCompleto = "Gabrielly Vitória Sueli Lopes", DataNascimento = new DateTime(1996, 07, 14), Genero = "Feminino", CPF = "142.154.935-28", Telefone = "4830459633", ContatoEmergencia = "4899631200", Alergias = "Asma Bronquica", CuidadosEspecificos = "faz uso regular da bombinha", Convenio = "One Health"
+                IdPessoa = 6, NomeCompleto = "Gabrielly Vitória Sueli Lopes", DataNascimento = new DateTime(1996, 07, 14), Genero = "Feminino", CPF = "142.154.935-28", Telefone = "4830459633", ContatoEmergencia = "4899631200", Alergias = "Asma Bronquica", CuidadosEspecificos = "faz uso regular da bombinha", Convenio = "One Health", statusAtendimento = StatusAtendimento.AguardandoAtendimento
             },
 
             new PacienteModel 
             { 
-                IdPessoa = 7, NomeCompleto = "Aurora Francisca Marcela Bernardes", DataNascimento = new DateTime(1975, 02, 05), Genero = "Feminino", CPF = "670.534.738-48", Telefone = "4833254796", ContatoEmergencia = "4836210056", Alergias = "Leite e derivados", CuidadosEspecificos = "faz reposição de hormonios", Convenio = "Unimed"
+                IdPessoa = 7, NomeCompleto = "Aurora Francisca Marcela Bernardes", DataNascimento = new DateTime(1975, 02, 05), Genero = "Feminino", CPF = "670.534.738-48", Telefone = "4833254796", ContatoEmergencia = "4836210056", Alergias = "Leite e derivados", CuidadosEspecificos = "faz reposição de hormonios", Convenio = "Unimed", statusAtendimento = StatusAtendimento.AguardandoAtendimento
             },
 
             new PacienteModel 
             { 
-                IdPessoa = 8, NomeCompleto = "Manoel Renato Theo da Cunha", DataNascimento = new DateTime(1969, 12, 25), Genero = "Masculino", CPF = "709.924.665-80", Telefone = "4891224420", ContatoEmergencia = "4833002100", Alergias = "Frutos do Mar", CuidadosEspecificos = "não possui", Convenio = "One Health"
+                IdPessoa = 8, NomeCompleto = "Manoel Renato Theo da Cunha", DataNascimento = new DateTime(1969, 12, 25), Genero = "Masculino", CPF = "709.924.665-80", Telefone = "4891224420", ContatoEmergencia = "4833002100", Alergias = "Frutos do Mar", CuidadosEspecificos = "não possui", Convenio = "One Health", statusAtendimento = StatusAtendimento.AguardandoAtendimento
             },
 
             new PacienteModel 
             { 
-                IdPessoa = 9, NomeCompleto = "Bruna Rosângela Francisca", DataNascimento = new DateTime(1991, 01, 31), Genero = "Feminino", CPF = "253.415.630-69", Telefone = "4899951120", ContatoEmergencia = "4833256612", Alergias = "Não possui", CuidadosEspecificos = "não possui", Convenio = "Unimed"
+                IdPessoa = 9, NomeCompleto = "Bruna Rosângela Francisca", DataNascimento = new DateTime(1991, 01, 31), Genero = "Feminino", CPF = "253.415.630-69", Telefone = "4899951120", ContatoEmergencia = "4833256612", Alergias = "Não possui", CuidadosEspecificos = "não possui", Convenio = "Unimed", statusAtendimento = StatusAtendimento.AguardandoAtendimento
             },
 
             new PacienteModel 
             { 
-                IdPessoa = 10, NomeCompleto = "Luiz Gustavo Costa", DataNascimento = new DateTime(1993, 07, 09), Genero = "Masculino", CPF = "506.250.120-44", Telefone = "4899220000", ContatoEmergencia = "4830459992", Alergias = "Urticária", CuidadosEspecificos = "não possui", Convenio = "Bradesco Saude"
+                IdPessoa = 10, NomeCompleto = "Luiz Gustavo Costa", DataNascimento = new DateTime(1993, 07, 09), Genero = "Masculino", CPF = "506.250.120-44", Telefone = "4899220000", ContatoEmergencia = "4830459992", Alergias = "Urticária", CuidadosEspecificos = "não possui", Convenio = "Bradesco Saude", statusAtendimento = StatusAtendimento.AguardandoAtendimento
             },
 
             new PacienteModel 
             { 
-                IdPessoa = 11, NomeCompleto = "Mariana Daniela Aragão", DataNascimento = new DateTime(1989, 09, 19), Genero = "Feminino", CPF = "513.327.137-93", Telefone = "4833090054", ContatoEmergencia = "48999520021", Alergias = "Rinite, Bronquite, Camarão", CuidadosEspecificos = "não possui", Convenio = "SulAmérica Saude"
+                IdPessoa = 11, NomeCompleto = "Mariana Daniela Aragão", DataNascimento = new DateTime(1989, 09, 19), Genero = "Feminino", CPF = "513.327.137-93", Telefone = "4833090054", ContatoEmergencia = "48999520021", Alergias = "Rinite, Bronquite, Camarão", CuidadosEspecificos = "não possui", Convenio = "SulAmérica Saude", statusAtendimento = StatusAtendimento.AguardandoAtendimento
             },
 
             new PacienteModel 
             { 
-                IdPessoa = 12, NomeCompleto = "Emanuelly Regina", DataNascimento = new DateTime(1972, 07, 10), Genero = "Feminino", CPF = "922.265.830-25", Telefone = "48999195520", ContatoEmergencia = "4833149951", Alergias = "Não possui", CuidadosEspecificos = "não possui", Convenio = "Bradesco Saude"
+                IdPessoa = 12, NomeCompleto = "Emanuelly Regina", DataNascimento = new DateTime(1972, 07, 10), Genero = "Feminino", CPF = "922.265.830-25", Telefone = "48999195520", ContatoEmergencia = "4833149951", Alergias = "Não possui", CuidadosEspecificos = "não possui", Convenio = "Bradesco Saude", statusAtendimento = StatusAtendimento.AguardandoAtendimento
             },
 
             new PacienteModel 
             { 
-                IdPessoa = 13, NomeCompleto = "Jennifer Vanessa Marlene Peixoto", DataNascimento = new DateTime(1969, 12, 25), Genero = "Feminino", CPF = "867.882.944-37", Telefone = "48999000015", ContatoEmergencia = "4833133021", Alergias = "Alergia a Niquel", CuidadosEspecificos = "não possui", Convenio = "One Health"
+                IdPessoa = 13, NomeCompleto = "Jennifer Vanessa Marlene Peixoto", DataNascimento = new DateTime(1969, 12, 25), Genero = "Feminino", CPF = "867.882.944-37", Telefone = "48999000015", ContatoEmergencia = "4833133021", Alergias = "Alergia a Niquel", CuidadosEspecificos = "não possui", Convenio = "One Health", statusAtendimento = StatusAtendimento.AguardandoAtendimento
             },
 
             new PacienteModel
             { 
-                IdPessoa = 14, NomeCompleto = "Joaquim Leandro Julio Silva", DataNascimento = new DateTime(1981, 04, 26), Genero = "Masculino", CPF = "750.120.356-20", Telefone = "4899101220", ContatoEmergencia = "4830492210", Alergias = "Camarão", CuidadosEspecificos = "não possui", Convenio = "SulAmérica Saude"
+                IdPessoa = 14, NomeCompleto = "Joaquim Leandro Julio Silva", DataNascimento = new DateTime(1981, 04, 26), Genero = "Masculino", CPF = "750.120.356-20", Telefone = "4899101220", ContatoEmergencia = "4830492210", Alergias = "Camarão", CuidadosEspecificos = "não possui", Convenio = "SulAmérica Saude", statusAtendimento = StatusAtendimento.AguardandoAtendimento
             });
 
         modelBuilder.Entity<EnfermeiroModel>().HasData(

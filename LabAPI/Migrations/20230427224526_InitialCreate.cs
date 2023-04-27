@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
-namespace LabApi.Migrations
+namespace LabAPI.Migrations
 {
     /// <inheritdoc />
     public partial class InitialCreate : Migration
@@ -167,16 +167,16 @@ namespace LabApi.Migrations
                 columns: new[] { "ID_PESSOA", "ALERGIAS", "CONTATO_EMERGENCIA", "CONVENIO", "CUIDADOS_ESPECIAIS", "TOTAL_ATENDIMENTOS", "STATUS_ATENDIMENTO" },
                 values: new object[,]
                 {
-                    { 5, "Rinite", "4833259547", "Bradesco Saude", "não possui", 0, 0 },
-                    { 6, "Asma Bronquica", "4899631200", "One Health", "faz uso regular da bombinha", 0, 0 },
-                    { 7, "Leite e derivados", "4836210056", "Unimed", "faz reposição de hormonios", 0, 0 },
-                    { 8, "Frutos do Mar", "4833002100", "One Health", "não possui", 0, 0 },
-                    { 9, "Não possui", "4833256612", "Unimed", "não possui", 0, 0 },
-                    { 10, "Urticária", "4830459992", "Bradesco Saude", "não possui", 0, 0 },
-                    { 11, "Rinite, Bronquite, Camarão", "48999520021", "SulAmérica Saude", "não possui", 0, 0 },
-                    { 12, "Não possui", "4833149951", "Bradesco Saude", "não possui", 0, 0 },
-                    { 13, "Alergia a Niquel", "4833133021", "One Health", "não possui", 0, 0 },
-                    { 14, "Camarão", "4830492210", "SulAmérica Saude", "não possui", 0, 0 }
+                    { 5, "Rinite", "4833259547", "Bradesco Saude", "não possui", 0, 1 },
+                    { 6, "Asma Bronquica", "4899631200", "One Health", "faz uso regular da bombinha", 0, 1 },
+                    { 7, "Leite e derivados", "4836210056", "Unimed", "faz reposição de hormonios", 0, 1 },
+                    { 8, "Frutos do Mar", "4833002100", "One Health", "não possui", 0, 1 },
+                    { 9, "Não possui", "4833256612", "Unimed", "não possui", 0, 1 },
+                    { 10, "Urticária", "4830459992", "Bradesco Saude", "não possui", 0, 1 },
+                    { 11, "Rinite, Bronquite, Camarão", "48999520021", "SulAmérica Saude", "não possui", 0, 1 },
+                    { 12, "Não possui", "4833149951", "Bradesco Saude", "não possui", 0, 1 },
+                    { 13, "Alergia a Niquel", "4833133021", "One Health", "não possui", 0, 1 },
+                    { 14, "Camarão", "4830492210", "SulAmérica Saude", "não possui", 0, 1 }
                 });
 
             migrationBuilder.CreateIndex(

@@ -18,7 +18,7 @@ namespace LabApi.DTOS
         
         public StatusAtendimento StatusAtendimento { get; set; } 
         
-       public List<string> OpcoesDisponiveis { get; set; } 
+      
        
      
         

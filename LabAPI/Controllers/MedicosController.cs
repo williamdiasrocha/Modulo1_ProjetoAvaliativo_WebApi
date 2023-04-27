@@ -241,13 +241,13 @@ namespace LabApi.Controllers
 
         [HttpGet]
         [Route("BuscarMedico")]
-        public ActionResult Obter([FromQuery] string status = "", int? identificador = null)
+        public ActionResult Obter([FromQuery] string status = "")
         {
             var medicos = _context.Medicos.AsQueryable();
 
-            if(identificador.HasValue)
+            if (string.IsNullOrEmpty(status))
             {
-                medicos = medicos.Where(p => p.IdPessoa == identificador.Value);
+                return StatusCode(400, "A string statusAtendimento não pode ser vazia ou nula.");
             }
             else if(!string.IsNullOrEmpty(status))
             {

@@ -33,6 +33,7 @@ namespace LabApi.Models
         public PacienteModel()
         {
             ContatoEmergencia = "N/A";
+            statusAtendimento = StatusAtendimento.AguardandoAtendimento;
         }
        
     }    

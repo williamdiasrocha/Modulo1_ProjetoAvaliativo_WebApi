@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace LabApi.Migrations
+namespace LabAPI.Migrations
 {
     [DbContext(typeof(LabApiContext))]
     partial class LabApiContextModelSnapshot : ModelSnapshot
@@ -252,7 +252,7 @@ namespace LabApi.Migrations
                             Convenio = "Bradesco Saude",
                             CuidadosEspecificos = "não possui",
                             TotalAtendimentos = 0,
-                            statusAtendimento = 0
+                            statusAtendimento = 1
                         },
                         new
                         {
@@ -267,7 +267,7 @@ namespace LabApi.Migrations
                             Convenio = "One Health",
                             CuidadosEspecificos = "faz uso regular da bombinha",
                             TotalAtendimentos = 0,
-                            statusAtendimento = 0
+                            statusAtendimento = 1
                         },
                         new
                         {
@@ -282,7 +282,7 @@ namespace LabApi.Migrations
                             Convenio = "Unimed",
                             CuidadosEspecificos = "faz reposição de hormonios",
                             TotalAtendimentos = 0,
-                            statusAtendimento = 0
+                            statusAtendimento = 1
                         },
                         new
                         {
@@ -297,7 +297,7 @@ namespace LabApi.Migrations
                             Convenio = "One Health",
                             CuidadosEspecificos = "não possui",
                             TotalAtendimentos = 0,
-                            statusAtendimento = 0
+                            statusAtendimento = 1
                         },
                         new
                         {
@@ -312,7 +312,7 @@ namespace LabApi.Migrations
                             Convenio = "Unimed",
                             CuidadosEspecificos = "não possui",
                             TotalAtendimentos = 0,
-                            statusAtendimento = 0
+                            statusAtendimento = 1
                         },
                         new
                         {
@@ -327,7 +327,7 @@ namespace LabApi.Migrations
                             Convenio = "Bradesco Saude",
                             CuidadosEspecificos = "não possui",
                             TotalAtendimentos = 0,
-                            statusAtendimento = 0
+                            statusAtendimento = 1
                         },
                         new
                         {
@@ -342,7 +342,7 @@ namespace LabApi.Migrations
                             Convenio = "SulAmérica Saude",
                             CuidadosEspecificos = "não possui",
                             TotalAtendimentos = 0,
-                            statusAtendimento = 0
+                            statusAtendimento = 1
                         },
                         new
                         {
@@ -357,7 +357,7 @@ namespace LabApi.Migrations
                             Convenio = "Bradesco Saude",
                             CuidadosEspecificos = "não possui",
                             TotalAtendimentos = 0,
-                            statusAtendimento = 0
+                            statusAtendimento = 1
                         },
                         new
                         {
@@ -372,7 +372,7 @@ namespace LabApi.Migrations
                             Convenio = "One Health",
                             CuidadosEspecificos = "não possui",
                             TotalAtendimentos = 0,
-                            statusAtendimento = 0
+                            statusAtendimento = 1
                         },
                         new
                         {
@@ -387,7 +387,7 @@ namespace LabApi.Migrations
                             Convenio = "SulAmérica Saude",
                             CuidadosEspecificos = "não possui",
                             TotalAtendimentos = 0,
-                            statusAtendimento = 0
+                            statusAtendimento = 1
                         });
                 });
 

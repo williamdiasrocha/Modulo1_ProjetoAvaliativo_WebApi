@@ -77,11 +77,12 @@ O arquivo [Program.cs] que consta no arquivo raiz é o início do projeto e faz 
 
 <h3>Rotas Paciente >>></h3>
 
-Método: POST;
+Requisição: CriarPaciente;
 Descrição: Cria e insere um paciente novo no banco de dados;
-Path: http://localhost:5011/api/Pacientes/CriarPaciente
+Método: POST;
+Path: http://localhost:5011/Pacientes/CriarPaciente
 Modelo do body:
-sh
+```sh
 {
   "nomeCompleto": "",
   "genero": "",
@@ -93,47 +94,48 @@ sh
   "cuidadosEspecificos": [""],
   "convenio": ""
 }
-
-Requisição: updatePatient;
-Descrição: Atualiza as informações de um paciente já criado no banco de dados;
+```
+Requisição: AtualizarPaciente;
+Descrição: Atualiza as informações pelo id de um paciente já cadastrado no banco de dados;
 Método: PUT;
-Path: http://localhost:3333/patient/:id
+Path: http://localhost:5011/Pacientes/AtualizarPaciente/{id}
 Modelo do body:
-sh
+```sh
 {
-    "name": "",
-    "gender": "",
-	"birth": "YYYY-MM-DD",
-    "cpf": "",
-    "phone": "",
-    "emergency": "",
-    "allergy": "",
-    "specialCares": "",        
-    "healthInsurance": ""
+  "nomeCompleto": "",
+  "genero": "",
+  "dataNascimento": "",
+  "cpf": "",
+  "telefone": "",
+  "contatoEmergencia": "",
+  "alergias": [""],
+  "cuidadosEspecificos": [""],
+  "convenio": ""
 }
+```
 
-
-Requisição: updateStatus;
-Descrição: Altera o Status do paciente no banco de dados;
+Requisição: StatusPaciente;
+Descrição: Altera o Status do paciente no banco de dados pelo id;
 Método: PUT;
-Path: http://localhost:3333/patient/:id/status
+Path: http://localhost:5011/Pacientes/StatusPaciente/{id}/status
 Modelo do body:
-sh
+```sh
 {
-	"status": "AGUARDANDO_ATENDIMENTO"
+  "novoStatus": "",
+  "statusAtendimento": "AguardandoAtendimento"
 }
+```
 
-
-Requisição: patientsList;
-Descrição: Gera uma lista dos pacientes cadastrados no banco de dados, podendo ser filtrado pelos campos ["AGUARDANDO_ATENDIMENTO", "EM_ATENDIMENTO", "ATENDIDO", "NAO_ATENDIDO"];
+Requisição: BuscarPaciente;
+Descrição: Gera uma lista dos pacientes cadastrados no banco de dados, podendo ser filtrado pelos campos ["AGUARDANDOATENDIMENTO", "EMATENDIMENTO", "ATENDIDO", "NAOATENDIDO"];
 Método: GET;
 Path: 
-http://localhost:3333/patient
+http://localhost:5011/Pacientes/BuscarPaciente
 
-Requisição: searchPatient;
+Requisição: BuscarPaciente;
 Descrição: Busca o paciente no banco de dados pelo Id;
 Método: GET;
-Path: http://localhost:3333/patient/:id
+Path: http://localhost:5011/Pacientes/BuscarPaciente/{id}
 
 
 Requisição: deletePatient;
