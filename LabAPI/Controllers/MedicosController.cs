@@ -13,7 +13,7 @@ using static LabApi.Models.MedicoModel;
 namespace LabApi.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     public class MedicosController : ControllerBase
     {
         private readonly LabApiContext _context;
@@ -23,7 +23,7 @@ namespace LabApi.Controllers
         }
 
         [HttpPost]
-        [Route("medicos")]
+        [Route("CriarMedico")]
         public ActionResult Inserir([FromBody] MedicoDTO medicoDTO)
         {
             if (medicoDTO == null) 
@@ -120,7 +120,7 @@ namespace LabApi.Controllers
             }
         }
 
-        [HttpPut("{identificador}")]
+        [HttpPut("AtualizarMedico/{identificador}")]
         public ActionResult AtualizarMedico(int id, [FromBody] MedicoDTO medicoDTO)
         {
             var medico = _context.Medicos.FirstOrDefault(m => m.IdPessoa == id);
@@ -208,7 +208,7 @@ namespace LabApi.Controllers
             }
         }
 
-        [HttpPut("/api/Medicos/{identificador}/status")]
+        [HttpPut("StatusMedico/{identificador}/status")]
         public ActionResult AtualizarStatusMedico(int identificador, [FromBody] AtualizacaoStatusMedicoDTO atualizacaoStatusMedicoDTO)
         {
             // Verifica se o Medico existe na base de dados
@@ -240,7 +240,7 @@ namespace LabApi.Controllers
         }
 
         [HttpGet]
-        [Route("Medicos")]
+        [Route("BuscarMedico")]
         public ActionResult Obter([FromQuery] string status = "", int? identificador = null)
         {
             var medicos = _context.Medicos.AsQueryable();
@@ -284,7 +284,7 @@ namespace LabApi.Controllers
         }
 
         [HttpGet]
-        [Route("Medicos/{id})")]
+        [Route("BuscarMedico/{id})")]
         public ActionResult ObterMedicoPorId(int id)
         {
               // BUSCAR O medico PELO ID INFORMADO
@@ -316,7 +316,7 @@ namespace LabApi.Controllers
         }
 
         [HttpDelete]
-        [Route("Medicos/{id}")]
+        [Route("DeleteMedico/{id}")]
         public ActionResult Delete(int id)
         {
             // Fazer a busca do medico a ser excluido na base de dados pelo Id

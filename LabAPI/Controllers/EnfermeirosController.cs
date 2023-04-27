@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace LabApi.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     public class EnfermeirosController : ControllerBase
     {
         private readonly LabApiContext _context;
@@ -21,7 +21,7 @@ namespace LabApi.Controllers
 
 
         [HttpPost]
-        [Route("medicos")]
+        [Route("CriarEnfermeiro")]
         public ActionResult Inserir([FromBody] EnfermeiroDTO enfermeiroDTO)
         {
             if (enfermeiroDTO == null) 
@@ -105,7 +105,7 @@ namespace LabApi.Controllers
             }
         }
 
-        [HttpPut("{identificador}")]
+        [HttpPut("AtualizarEnfermeiro/{identificador}")]
         public ActionResult AtualizarEnfermeiro(int id, [FromBody] EnfermeiroDTO enfermeiroDTO)
         {
             var enfermeiro = _context.Enfermeiros.FirstOrDefault(m => m.IdPessoa == id);
@@ -183,7 +183,7 @@ namespace LabApi.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpGet("BuscarEnfermeiro")]
         public ActionResult<List<EnfermeiroDTO>> Get()
         {
             var enfermeiros = _context.Enfermeiros.Select(e => new EnfermeiroDTO
@@ -201,7 +201,7 @@ namespace LabApi.Controllers
             return enfermeiros;
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("BuscarEnfermeiro/{id}")]
         public ActionResult<EnfermeiroDTO> Get(int id)
         {
             var enfermeiroDTO = new EnfermeiroDTO();
@@ -223,7 +223,7 @@ namespace LabApi.Controllers
             return Ok(enfermeiroDTO);
         }
         [HttpDelete]
-        [Route("Enfermeiros/{id}")]
+        [Route("DeleteEnfermeiro/{id}")]
         public ActionResult DeleteEnfermeiro(int id)
         {
             // Fazer a busca do enfermeiro a ser excluido na base de dados pelo Id

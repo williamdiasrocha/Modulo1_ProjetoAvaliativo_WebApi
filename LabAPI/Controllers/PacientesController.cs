@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace LabApi.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     public class PacientesController : ControllerBase
     {
         private readonly LabApiContext _context;
@@ -21,7 +21,7 @@ namespace LabApi.Controllers
         }
 
         [HttpPost]
-        [Route("Pacientes")]
+        [Route("CriarPaciente")]
         public ActionResult Inserir([FromBody] PacienteDTO pacienteDTO)
         {
             if (pacienteDTO == null)  // verifica se paciente é nulo
@@ -107,7 +107,7 @@ namespace LabApi.Controllers
         }
 
         [HttpPut]
-        [Route("pacientes/{id}")]
+        [Route("AtualizarPaciente/{id}")]
         public ActionResult Atualizar(int id, [FromBody] PacienteDTO pacienteDTO)
         {
             if (pacienteDTO == null)  // verifica se paciente é nulo
@@ -189,7 +189,7 @@ namespace LabApi.Controllers
             }
         }
 
-        [HttpPut("/api/Pacientes/{identificador}/status")]
+        [HttpPut("StatusPaciente/{identificador}/status")]
         public ActionResult AtualizarStatusAtendimento(int identificador, [FromBody] AtualizacaoStatusDTO atualizacaoStatusDTO)
         {
              // Verifica se o paciente existe na base de dados
@@ -228,7 +228,7 @@ namespace LabApi.Controllers
 
 
         [HttpGet]
-        [Route("pacientes")]
+        [Route("BuscarPaciente")]
         public ActionResult Obter([FromQuery] string statusAtendimento = "", int? identificador = null)
         {
              var pacientes = _context.Pacientes.AsQueryable();
@@ -280,7 +280,7 @@ namespace LabApi.Controllers
         }
 
         [HttpGet]
-        [Route("pacientes/{id})")]
+        [Route("BuscarPaciente/{id})")]
         public ActionResult ObterPorId(int id)
         {
               // BUSCAR O PACIENTE PELO ID INFORMADO
@@ -313,7 +313,7 @@ namespace LabApi.Controllers
         }
 
         [HttpDelete]
-        [Route("pacientes/{id}")]
+        [Route("DeletePaciente/{id}")]
         public ActionResult Delete(int id)
         {
             // Fazer a busca do paciente a ser excluido na base de dados pelo Id

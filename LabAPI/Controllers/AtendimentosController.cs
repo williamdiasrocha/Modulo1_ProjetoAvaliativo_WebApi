@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace LabApi.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     public class AtendimentosController : ControllerBase
     {
         private readonly LabApiContext _context;
@@ -18,7 +18,7 @@ namespace LabApi.Controllers
         {
             _context = context;
         }
-        [HttpPut]
+        [HttpPut("AtendimentoMedico")]
         public ActionResult Put(int pacienteId, int medicoId, string Observacoes)
         {
             // Procurar pelo paciente pelo Id

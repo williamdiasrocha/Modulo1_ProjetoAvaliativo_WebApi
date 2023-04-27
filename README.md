@@ -19,9 +19,9 @@
 | Framework / Plugins | Documentação |
 | ------ | ------ |
 | Microsoft.EntityFrameworkCore | [https://learn.microsoft.com/pt-br/ef/] |
-| Microsoft.EntityFrameworkCore.Design | [https://learn.microsoft.com/pt-br/dotnet/api/microsoft.entityframeworkcore.design?view=efcore-1.1] |
+| Microsoft.EntityFrameworkCore.Design | [https://www.nuget.org/packages/Microsoft.EntityFrameworkCore] |
 | Microsoft.EntityFrameworkCore.SqlServer | [https://learn.microsoft.com/pt-br/ef/core/providers/sql-server/?tabs=dotnet-core-cli] |
-| Microsoft.EntityFrameworkCore.Tools  | [https://learn.microsoft.com/pt-br/ef/core/get-started/overview/install] |
+| Microsoft.EntityFrameworkCore.Tools  | [https://www.nuget.org/packages/Microsoft.EntityFrameworkCore.Tools/] |
 | Newtonsoft.Json  | [https://www.newtonsoft.com/json/help/html/introduction.htm] |
 | Swashbuckle.AspNetCore  | [https://learn.microsoft.com/pt-br/aspnet/core/tutorials/getting-started-with-swashbuckle?view=aspnetcore-7.0&tabs=visual-studio] |
 <p>_________________</p>
@@ -30,29 +30,30 @@
 <h2>Instalação </h2>
 
 
-Para iniciar o aplicativo começamos pelo [Entity Framework Core] usando os comandos abaixo para a instalação das dependências e iniciar o servidor.
+Para iniciar o aplicativo começamos pelo [Microsoft.EntityFrameworkCore] usando os comandos abaixo para a instalação das dependências e iniciar o servidor.
 
 
 ```dotnet add package Microsoft.EntityFrameworkCore.Sqlite```
 
 
-Na sequência instalaremos o[Express.JS] usando os comando abaixo: 
+Na sequência instalaremos o[Microsoft.EntityFrameworkCore.Design] usando os comando abaixo: 
 
-sh
-npm i express
-
-
-Instalaremos agora o [Sequelize] para fazer a integração com banco de dados. 
-
-sh
-npm i --save sequelize
-npm i --save pg pg-hstore
+```dotnet add package Microsoft.EntityFrameworkCore --version 7.0.5```
 
 
-Por fim, instalaremos o Nodemon para poder atualizar o servidor automaticamente.
+Instalaremos agora o [Microsoft.EntityFrameworkCore.SqlServer] para fazer a integração com banco de dados. 
 
-sh
-npm i nodemon
+```dotnet add package Microsoft.EntityFrameworkCore.SqlServer```
+
+
+Instalaremos também o [Microsoft.EntityFrameworkCore.Tools] usando o comando abaixo: 
+
+```dotnet add package Microsoft.EntityFrameworkCore.Tools --version 7.0.5```
+
+
+Por fim, instalaremos o [Swashbuckle.AspNetCore] para poder atualizar o servidor automaticamente.
+
+```dotnet add TodoApi.csproj package Swashbuckle.AspNetCore -v 6.2.3```
 
 <p>_________________</p>
 
@@ -60,39 +61,37 @@ npm i nodemon
 
 O projeto foi executado em pastas para oferecer uma melhor compreensão do código. Veja como está idealizado:
 
-- [src] - Pastas Controllers, Models e Database;
-- [database] - Pasta com arquivo com a inicialização da rota Sequilize;
+- [src] - Pastas Controllers, Models, Enums e DTOs;
+- [enums] - Pasta com arquivo de classes do tipo enums;
 - [models] - Arquivos de criação de tabelas no banco de dados;
-- [controllers] - Pastas com os arquivos das requisições da aplicação. Constam as pastas patients, doctors, nurses e service;
+- [controllers] - Pastas com os arquivos das requisições da aplicação. Constam os arquivos Paciente, Medicos, Enfermeiros e Atendimento;
 
 Nas pastas os arquivos estão separados conforme a sua função. 
 
-A pasta [index.js] que consta no arquivo raiz é o início do projeto, faz a ligação do banco de dados e nele contém as rotas das requisições. 
+O arquivo [Program.cs] que consta no arquivo raiz é o início do projeto e faz a ligação com o banco de dados. 
 <p>_________________</p>
 
 <h2>Requisições, Descrição e Path</h2>
 
-<p>A aplicação consta com 3 sessões de requisições, sendo elas, Patient, Doctor, Nurse. Abaixo você confere as informações principais para a utilização das requisições, suas funções e path's:</p>
+<p>A aplicação consta com 3 sessões de requisições, sendo elas, Paciente, Medicos, Enfermeiros. Abaixo você confere as informações principais para a utilização das requisições, suas funções e path's:</p>
 
-<h3>Rotas Patient >>></h3>
+<h3>Rotas Paciente >>></h3>
 
-
-Requisição: createPatient;
-Descrição: Cria um paciente novo no banco de dados;
 Método: POST;
-Path: http://localhost:3333/patient
+Descrição: Cria e insere um paciente novo no banco de dados;
+Path: http://localhost:5011/api/Pacientes/CriarPaciente
 Modelo do body:
 sh
 {
-    "name": "",
-    "gender": "",
-	"birth": "YYYY-MM-DD",
-    "cpf": "",
-    "phone": "",
-    "emergency": "",
-    "allergy": "",
-    "specialCares": "",        
-    "healthInsurance": ""
+  "nomeCompleto": "",
+  "genero": "",
+  "dataNascimento": "",
+  "cpf": "",
+  "telefone": "",
+  "contatoEmergencia": "",
+  "alergias": [""],
+  "cuidadosEspecificos": [""],
+  "convenio": ""
 }
 
 Requisição: updatePatient;
