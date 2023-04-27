@@ -196,19 +196,19 @@ namespace LabApi.Controllers
         var paciente = _context.Pacientes.FirstOrDefault(x => x.IdPessoa == identificador);
         if (paciente == null)
         {
-            return NotFound("Paciente não encontrado.");
+            return StatusCode(404, "Paciente não encontrado.");
         }
         
         // Verifica se o campo status foi informado e se é válido
         if (string.IsNullOrWhiteSpace(atualizacaoStatusDTO.NovoStatus))
         {
-            return BadRequest("Status inválido.");
+            return StatusCode(400, "Status inválido.");
         }
 
         StatusAtendimento novoStatus;
         if (!Enum.TryParse(atualizacaoStatusDTO.NovoStatus, out novoStatus))
         {
-            return BadRequest("Status inválido.");
+            return StatusCode(400, "Status inválido.");
         }
 
         // Atualiza o status do paciente
@@ -254,7 +254,7 @@ namespace LabApi.Controllers
                         pacientes = pacientes.Where(p => p.statusAtendimento == StatusAtendimento.NaoAtendido);
                         break;
                     default:
-                        return BadRequest("O Valor informado não é valido");
+                        return StatusCode(400, "O Valor informado não é valido");
 
                 }
             }
@@ -304,7 +304,8 @@ namespace LabApi.Controllers
                 ContatoEmergencia = paciente.ContatoEmergencia,
                 Alergias = paciente.Alergias?.Split(" | "),
                 CuidadosEspecificos = paciente.CuidadosEspecificos?.Split(" | "),
-                Convenio = paciente.Convenio
+                Convenio = paciente.Convenio,
+                TotalAtendimentos = paciente.TotalAtendimentos
               };
 
               // Retorna o paciente encontrado na base de dados

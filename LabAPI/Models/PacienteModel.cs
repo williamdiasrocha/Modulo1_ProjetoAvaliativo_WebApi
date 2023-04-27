@@ -19,13 +19,13 @@ namespace LabApi.Models
         [Column("ALERGIAS")] public string Alergias { get; set; } 
         [Column("CUIDADOS_ESPECIAIS")] public string CuidadosEspecificos { get; set; } 
         [Column("CONVENIO"), MaxLength(30)] public string Convenio { get; set; }
-        [ForeignKey("Status_Id")] 
-        public int StatusAtendId { get; set; }
-        [JsonConverter(typeof(StringEnumConverter))]
+        
+        
+        
         [Column("STATUS_ATENDIMENTO")] public StatusAtendimento statusAtendimento { get; set; }
         [Column("TOTAL_ATENDIMENTOS")] public int TotalAtendimentos { get; set; } = 0;
-        [ForeignKey("Status_Id")] 
-        public int StatusId { get; set; }
+        
+        
         
       
 

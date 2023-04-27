@@ -35,11 +35,13 @@ namespace LabApi.Migrations
                         .HasColumnType("datetime2")
                         .HasColumnName("DATA_ATEND");
 
-                    b.Property<int>("IdPaciente")
-                        .HasColumnType("int");
+                    b.Property<int>("IdMedico")
+                        .HasColumnType("int")
+                        .HasColumnName("ID_MEDICO");
 
-                    b.Property<int?>("MedicoIdPessoa")
-                        .HasColumnType("int");
+                    b.Property<int>("IdPaciente")
+                        .HasColumnType("int")
+                        .HasColumnName("ID_PACIENTE");
 
                     b.Property<string>("Observacoes")
                         .HasColumnType("nvarchar(max)")
@@ -50,7 +52,7 @@ namespace LabApi.Migrations
 
                     b.HasKey("IdAtendimento");
 
-                    b.HasIndex("MedicoIdPessoa");
+                    b.HasIndex("IdMedico");
 
                     b.HasIndex("PacienteIdPessoa");
 
@@ -226,12 +228,6 @@ namespace LabApi.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("CUIDADOS_ESPECIAIS");
 
-                    b.Property<int>("StatusAtendId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("StatusId")
-                        .HasColumnType("int");
-
                     b.Property<int>("TotalAtendimentos")
                         .HasColumnType("int")
                         .HasColumnName("TOTAL_ATENDIMENTOS");
@@ -255,8 +251,6 @@ namespace LabApi.Migrations
                             ContatoEmergencia = "4833259547",
                             Convenio = "Bradesco Saude",
                             CuidadosEspecificos = "não possui",
-                            StatusAtendId = 0,
-                            StatusId = 0,
                             TotalAtendimentos = 0,
                             statusAtendimento = 0
                         },
@@ -272,8 +266,6 @@ namespace LabApi.Migrations
                             ContatoEmergencia = "4899631200",
                             Convenio = "One Health",
                             CuidadosEspecificos = "faz uso regular da bombinha",
-                            StatusAtendId = 0,
-                            StatusId = 0,
                             TotalAtendimentos = 0,
                             statusAtendimento = 0
                         },
@@ -289,8 +281,6 @@ namespace LabApi.Migrations
                             ContatoEmergencia = "4836210056",
                             Convenio = "Unimed",
                             CuidadosEspecificos = "faz reposição de hormonios",
-                            StatusAtendId = 0,
-                            StatusId = 0,
                             TotalAtendimentos = 0,
                             statusAtendimento = 0
                         },
@@ -306,8 +296,6 @@ namespace LabApi.Migrations
                             ContatoEmergencia = "4833002100",
                             Convenio = "One Health",
                             CuidadosEspecificos = "não possui",
-                            StatusAtendId = 0,
-                            StatusId = 0,
                             TotalAtendimentos = 0,
                             statusAtendimento = 0
                         },
@@ -323,8 +311,6 @@ namespace LabApi.Migrations
                             ContatoEmergencia = "4833256612",
                             Convenio = "Unimed",
                             CuidadosEspecificos = "não possui",
-                            StatusAtendId = 0,
-                            StatusId = 0,
                             TotalAtendimentos = 0,
                             statusAtendimento = 0
                         },
@@ -340,8 +326,6 @@ namespace LabApi.Migrations
                             ContatoEmergencia = "4830459992",
                             Convenio = "Bradesco Saude",
                             CuidadosEspecificos = "não possui",
-                            StatusAtendId = 0,
-                            StatusId = 0,
                             TotalAtendimentos = 0,
                             statusAtendimento = 0
                         },
@@ -357,8 +341,6 @@ namespace LabApi.Migrations
                             ContatoEmergencia = "48999520021",
                             Convenio = "SulAmérica Saude",
                             CuidadosEspecificos = "não possui",
-                            StatusAtendId = 0,
-                            StatusId = 0,
                             TotalAtendimentos = 0,
                             statusAtendimento = 0
                         },
@@ -374,8 +356,6 @@ namespace LabApi.Migrations
                             ContatoEmergencia = "4833149951",
                             Convenio = "Bradesco Saude",
                             CuidadosEspecificos = "não possui",
-                            StatusAtendId = 0,
-                            StatusId = 0,
                             TotalAtendimentos = 0,
                             statusAtendimento = 0
                         },
@@ -391,8 +371,6 @@ namespace LabApi.Migrations
                             ContatoEmergencia = "4833133021",
                             Convenio = "One Health",
                             CuidadosEspecificos = "não possui",
-                            StatusAtendId = 0,
-                            StatusId = 0,
                             TotalAtendimentos = 0,
                             statusAtendimento = 0
                         },
@@ -408,8 +386,6 @@ namespace LabApi.Migrations
                             ContatoEmergencia = "4830492210",
                             Convenio = "SulAmérica Saude",
                             CuidadosEspecificos = "não possui",
-                            StatusAtendId = 0,
-                            StatusId = 0,
                             TotalAtendimentos = 0,
                             statusAtendimento = 0
                         });
@@ -419,7 +395,9 @@ namespace LabApi.Migrations
                 {
                     b.HasOne("LabApi.Models.MedicoModel", "Medico")
                         .WithMany("AtendimentosMedico")
-                        .HasForeignKey("MedicoIdPessoa");
+                        .HasForeignKey("IdMedico")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("LabApi.Models.PacienteModel", "Paciente")
                         .WithMany()

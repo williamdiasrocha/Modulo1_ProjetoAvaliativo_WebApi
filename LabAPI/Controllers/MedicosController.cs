@@ -260,7 +260,7 @@ namespace LabApi.Controllers
                         medicos = medicos.Where(p => p.Estado_No_Sistema == EstadoSistema.Inativo);
                         break;
                     default:
-                        return BadRequest("O Valor informado não é valido pra status");
+                        return StatusCode(400, "O Valor informado não é valido pra status");
 
                 }
             }

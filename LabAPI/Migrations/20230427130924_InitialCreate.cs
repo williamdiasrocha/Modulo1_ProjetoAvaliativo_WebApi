@@ -81,10 +81,8 @@ namespace LabApi.Migrations
                     ALERGIAS = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CUIDADOS_ESPECIAIS = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CONVENIO = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
-                    StatusAtendId = table.Column<int>(type: "int", nullable: false),
                     STATUS_ATENDIMENTO = table.Column<int>(type: "int", nullable: false),
-                    TOTAL_ATENDIMENTOS = table.Column<int>(type: "int", nullable: false),
-                    StatusId = table.Column<int>(type: "int", nullable: false)
+                    TOTAL_ATENDIMENTOS = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -103,20 +101,21 @@ namespace LabApi.Migrations
                 {
                     ID_ATEND = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    ID_PACIENTE = table.Column<int>(type: "int", nullable: false),
                     PacienteIdPessoa = table.Column<int>(type: "int", nullable: true),
-                    MedicoIdPessoa = table.Column<int>(type: "int", nullable: true),
+                    ID_MEDICO = table.Column<int>(type: "int", nullable: false),
                     DATA_ATEND = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IdPaciente = table.Column<int>(type: "int", nullable: false),
                     OBSERVACOES = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ATENDIMENTOS", x => x.ID_ATEND);
                     table.ForeignKey(
-                        name: "FK_ATENDIMENTOS_MEDICOS_MedicoIdPessoa",
-                        column: x => x.MedicoIdPessoa,
+                        name: "FK_ATENDIMENTOS_MEDICOS_ID_MEDICO",
+                        column: x => x.ID_MEDICO,
                         principalTable: "MEDICOS",
-                        principalColumn: "ID_PESSOA");
+                        principalColumn: "ID_PESSOA",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_ATENDIMENTOS_PACIENTES_PacienteIdPessoa",
                         column: x => x.PacienteIdPessoa,
@@ -165,25 +164,25 @@ namespace LabApi.Migrations
 
             migrationBuilder.InsertData(
                 table: "PACIENTES",
-                columns: new[] { "ID_PESSOA", "ALERGIAS", "CONTATO_EMERGENCIA", "CONVENIO", "CUIDADOS_ESPECIAIS", "StatusAtendId", "StatusId", "TOTAL_ATENDIMENTOS", "STATUS_ATENDIMENTO" },
+                columns: new[] { "ID_PESSOA", "ALERGIAS", "CONTATO_EMERGENCIA", "CONVENIO", "CUIDADOS_ESPECIAIS", "TOTAL_ATENDIMENTOS", "STATUS_ATENDIMENTO" },
                 values: new object[,]
                 {
-                    { 5, "Rinite", "4833259547", "Bradesco Saude", "não possui", 0, 0, 0, 0 },
-                    { 6, "Asma Bronquica", "4899631200", "One Health", "faz uso regular da bombinha", 0, 0, 0, 0 },
-                    { 7, "Leite e derivados", "4836210056", "Unimed", "faz reposição de hormonios", 0, 0, 0, 0 },
-                    { 8, "Frutos do Mar", "4833002100", "One Health", "não possui", 0, 0, 0, 0 },
-                    { 9, "Não possui", "4833256612", "Unimed", "não possui", 0, 0, 0, 0 },
-                    { 10, "Urticária", "4830459992", "Bradesco Saude", "não possui", 0, 0, 0, 0 },
-                    { 11, "Rinite, Bronquite, Camarão", "48999520021", "SulAmérica Saude", "não possui", 0, 0, 0, 0 },
-                    { 12, "Não possui", "4833149951", "Bradesco Saude", "não possui", 0, 0, 0, 0 },
-                    { 13, "Alergia a Niquel", "4833133021", "One Health", "não possui", 0, 0, 0, 0 },
-                    { 14, "Camarão", "4830492210", "SulAmérica Saude", "não possui", 0, 0, 0, 0 }
+                    { 5, "Rinite", "4833259547", "Bradesco Saude", "não possui", 0, 0 },
+                    { 6, "Asma Bronquica", "4899631200", "One Health", "faz uso regular da bombinha", 0, 0 },
+                    { 7, "Leite e derivados", "4836210056", "Unimed", "faz reposição de hormonios", 0, 0 },
+                    { 8, "Frutos do Mar", "4833002100", "One Health", "não possui", 0, 0 },
+                    { 9, "Não possui", "4833256612", "Unimed", "não possui", 0, 0 },
+                    { 10, "Urticária", "4830459992", "Bradesco Saude", "não possui", 0, 0 },
+                    { 11, "Rinite, Bronquite, Camarão", "48999520021", "SulAmérica Saude", "não possui", 0, 0 },
+                    { 12, "Não possui", "4833149951", "Bradesco Saude", "não possui", 0, 0 },
+                    { 13, "Alergia a Niquel", "4833133021", "One Health", "não possui", 0, 0 },
+                    { 14, "Camarão", "4830492210", "SulAmérica Saude", "não possui", 0, 0 }
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ATENDIMENTOS_MedicoIdPessoa",
+                name: "IX_ATENDIMENTOS_ID_MEDICO",
                 table: "ATENDIMENTOS",
-                column: "MedicoIdPessoa");
+                column: "ID_MEDICO");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ATENDIMENTOS_PacienteIdPessoa",
