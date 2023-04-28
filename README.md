@@ -307,10 +307,10 @@ Modelo do body:
      + Rotas para listar pacientes atendidos por determinado Médico;
      ```
     ```sh
-     + Inclusão de contagem de atendimento para Nurses;
+     + Inclusão de contagem de atendimento para Enfermeiros;
      ```
      ```sh
-     + Criação de attendence para Nurses;
+     + Criação de Atendimento para Enfermeiros;
      ```
      ```sh
      + Sistema de login para os usuários do sistema;
