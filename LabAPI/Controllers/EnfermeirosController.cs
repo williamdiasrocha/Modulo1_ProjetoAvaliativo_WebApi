@@ -85,7 +85,7 @@ namespace LabApi.Controllers
                 var resposta = new
                 {
                     mensagem = "Enfermeiro inserido com sucesso!",
-                    Identificador = enfermeiroDTO.Id,
+                    Identificador = enfermeiro.IdPessoa,
                     Atendimentos = new List<EnfermeiroModel>(),
                     Nome = enfermeiroDTO.NomeCompleto,
                     Genero = enfermeiroDTO.Genero,

@@ -121,9 +121,9 @@ namespace LabApi.Controllers
         }
 
         [HttpPut("AtualizarMedico/{identificador}")]
-        public ActionResult AtualizarMedico(int id, [FromBody] MedicoDTO medicoDTO)
+        public ActionResult AtualizarMedico([FromBody] MedicoDTO medicoDTO)
         {
-            var medico = _context.Medicos.FirstOrDefault(m => m.IdPessoa == id);
+            var medico = _context.Medicos.FirstOrDefault(m => m.IdPessoa == medicoDTO.id);
             if (medico == null)
             {
                 return StatusCode(404, "Médico não encontrado");
@@ -152,7 +152,7 @@ namespace LabApi.Controllers
             {
                 return StatusCode(400, "CPF deve conter apenas números e ter 11 dígitos");
             }
-            if(_context.Medicos.Any(m => m.CPF == medicoDTO.CPF && m.IdPessoa != id))
+            if(_context.Medicos.Any(m => m.CPF == medicoDTO.CPF && m.IdPessoa != medicoDTO.id))
             {
                 return StatusCode(409, "CPF já cadastrado na base de dados.");
             }
@@ -219,7 +219,7 @@ namespace LabApi.Controllers
             }
 
             // Verifica se o campo status foi informado e se é válido
-            if (string.IsNullOrEmpty(atualizacaoStatusMedicoDTO.NovoStatusM) || !Enum.TryParse<EstadoSistema>(atualizacaoStatusMedicoDTO.NovoStatusM, out var novoStatus))
+            if (string.IsNullOrEmpty(atualizacaoStatusMedicoDTO.NovoStatus) || !Enum.TryParse<EstadoSistema>(atualizacaoStatusMedicoDTO.NovoStatus, out var novoStatus))
             {
                 return StatusCode(400, "Status inválido.");
             }
@@ -307,7 +307,7 @@ namespace LabApi.Controllers
                 Telefone = medico.Telefone,
                 CRM_UF = medico.CRM_UF,
                 InstituicaoEnsinoFormacao = medico.InstituicaoEnsinoFormacao,
-                Especializacao_Clinica = medico.Especializacao_Clinica,
+                Especializacao_Clinica = string.Join(',', medico.Especializacao_Clinica),
                 Status = medico.Estado_No_Sistema
               };
 

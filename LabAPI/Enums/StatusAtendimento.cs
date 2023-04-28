@@ -1,19 +1,22 @@
 using System;
 using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
+using System.Runtime.Serialization;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace LabApi.Enums
 {
-    [JsonConverter(typeof(JsonStringEnumConverter))]
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum StatusAtendimento
     {
-        [Display(Name = "Aguardando Atendimento")]
-            AguardandoAtendimento = 1,
-            [Display(Name = "Em Atendimento")]
-            EmAtendimento = 2,
-            [Display(Name = "Atendido")]
-            Atendido = 3,
-            [Display(Name = "Não Atendido")]
-            NaoAtendido = 4,
+        [EnumMember(Value = "Aguardando Atendimento")]
+        AguardandoAtendimento,
+        [EnumMember(Value = "Em Atendimento")]
+        EmAtendimento,
+        [EnumMember(Value = "Atendido")]
+        Atendido,
+        [EnumMember(Value = "Nao Atendido")]
+        NaoAtendido
+        
     }
 }

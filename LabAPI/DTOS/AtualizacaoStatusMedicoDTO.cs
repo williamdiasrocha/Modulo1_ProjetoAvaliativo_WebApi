@@ -13,10 +13,16 @@ namespace LabApi.DTOS
 {
     public class AtualizacaoStatusMedicoDTO
     {
-        public string NovoStatusM { get; set; }
+        public string NovoStatus { get; set; }
         
-        public List<string> StatusDisponiveisM { get; set; }
+        public List<EstadoSistema> StatusDisponiveis { get; set; }
         
-        public Especializacao_Clinica EspecializacaoClinica {get; set; }
+        
+
+        public AtualizacaoStatusMedicoDTO()
+        {
+            StatusDisponiveis = StatusDisponiveis.ToList();
+            
+        }
     }
 }

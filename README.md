@@ -75,7 +75,7 @@ O arquivo [Program.cs] que consta no arquivo raiz é o início do projeto e faz 
 
 <p>A aplicação consta com 3 sessões de requisições, sendo elas, Paciente, Medicos, Enfermeiros. Abaixo você confere as informações principais para a utilização das requisições, suas funções e path's:</p>
 
-<h3>Rotas Paciente >>></h3>
+<h3>Rotas PACIENTES >>></h3>
 
 Requisição: CriarPaciente;
 Descrição: Cria e insere um paciente novo no banco de dados;
@@ -138,153 +138,164 @@ Método: GET;
 Path: http://localhost:5011/Pacientes/BuscarPaciente/{id}
 
 
-Requisição: deletePatient;
+Requisição: DeletePaciente;
 Descrição: Busca o paciente no banco de dados pelo Id e exclui do banco de dados;
 Método: DELETE;
-Path: http://localhost:3333/patient/:id
+Path: http://localhost:5011/Pacientes/DeletePaciente/{id}
 
 <p>_________________</p>
 
-<h3>Rotas Doctor >>></h3>
+<h3>Rotas MEDICOS >>></h3>
 
-Requisição: createDoctor;
+Requisição: CriarMedico;
 Descrição: Cria um médico novo no banco de dados;
 Método: POST;
-Path: http://localhost:3333/doctor
+Path: http://localhost:5011/Medicos/CriarMedico
 Modelo do body:
-sh
+```sh
 {
-	"name": "",
-    "gender": "",
-    "birth": "YYYY-MM-DD",
-    "cpf": "",
-    "phone": "",
-	"academy": "",
-    "crmUf": "",
-	"specialization": "",
-    "statusDoctor": "" 
+  "nomeMedico": "",
+  "genero": "",
+  "dataNascimento": "",
+  "cpf": "",
+  "telefone": "",
+  "instituicaoEnsinoFormacao": "",
+  "crM_UF": "",
+  "especializacao_Clinica": 1,
+  "especializacaoClinica": [""],
+  "estado_No_Sistema": 0,
+  "totalAtendimentos": 0
 }
+```
 
 
-
-Requisição: updateDoctor;
-Descrição: Atualiza as informações de um médico já criado no banco de dados;
+Requisição: AtualizarMedico;
+Descrição: Atualiza as informações de um médico já criado no banco de dados pelo id;
 Método: PUT;
-Path: http://localhost:3333/doctor/:id
+Path: http://localhost:5011/Medicos/AtualizarMedico/{identificador}
 Modelo do body:
-sh
+```sh
 {
-	"name": "",
-    "gender": "",
-    "birth": "YYYY-MM-DD",
-    "cpf": "",
-    "phone": "",
-	"academy": "",
-    "crmUf": "",
-	"specialization": "",
-    "statusDoctor": "" 
+  "nomeMedico": "",
+  "genero": "",
+  "dataNascimento": "",
+  "cpf": "",
+  "telefone": "",
+  "instituicaoEnsinoFormacao": "",
+  "crM_UF": "",
+  "especializacao_Clinica": 1,
+  "especializacaoClinica": [""],
+  "estado_No_Sistema": 0,
+  "totalAtendimentos": 0
 }
+```
 
-
-Requisição: updateStatus;
+Requisição: StatusMedico;
 Descrição: Altera o Status do médico no banco de dados;
 Método: PUT;
-Path: http://localhost:3333/doctor/:id/status
+Path: http://localhost:5011/Medicos/StatusMedico/{identificador}/status
 Modelo do body:
-sh
+```sh
 {
-	"statusDoctor": "Inativo"
+  "novoStatus": "",
+  "statusDisponiveis": [0]
 }
+```
 
 
-
-Requisição: doctorsList;
+Requisição: BuscarMedico;
 Descrição: Gera uma lista dos médicos cadastrados, podendo filtrar por ["ATIVO"] ou ["INATIVO"];
 Método: GET;
-Path: http://localhost:3333/doctor?statusDoctor=status
+Path: http://localhost:5011/medicos/buscarmedico?status=inativo
 
 
-Requisição: searchDoctor;
+Requisição: BuscarMedico;
 Descrição: Busca o médico no banco de dados pelo Id;
 Método: GET;
-Path: http://localhost:3333/doctor/:id
+Path: http://localhost:5011/medicos/buscarmedico/{id}
 
 
-Requisição: deleteDoctor;
+Requisição: DeleteMedico;
 Descrição: Busca o médico pelo Id e exclui do banco de dados;
 Método: DELETE;
-Path: http://localhost:3333/doctor/:id
+Path: http://localhost:5011/medicos/DeleteMedico/{id}
 
 <p>_________________</p>
 
-<h3>Rotas Nurse >>></h3>
+<h3>Rotas ENFERMEIROS >>></h3>
 
-Requisição: createNurse;
+Requisição: CriarEnfermeiro;
 Descrição: Cria um enfermeiro novo no banco de dados;
 Método: POST;
-Path: http://localhost:3333/nurse
+Path: http://localhost:5011/enfermeiros/criarEnfermeiro
 Modelo do body:
-sh
+```sh
 {
-    "name": "",
-    "gender": "",
-    "birth": "YYYY-MM-DD",
-    "cpf": "",
-    "phone": "",
-    "academy": "",
-    "cofenUf": ""
+  "id": 0,
+  "nomeCompleto": "",
+  "genero": "",
+  "dataNascimento": "",
+  "cpf": "",
+  "telefone": "",
+  "instituicaoEnsinoFormacao": "",
+  "totalAtendimentos": 0,
+  "cofeN_UF": ""
 }
+```
 
-
-Requisição: updateNurse;
-Descrição: Atualiza as informações de um médico já criado no banco de dados;
+Requisição: AtualizarEnfermeiro;
+Descrição: Atualiza as informações de um enfermeiro já criado no banco de dados pelo id;
 Método: PUT;
-Path: http://localhost:3333/nurse/:id
+Path: http://localhost:5011/enfermeiros/atualizarEnfermeiro/{id}
 Modelo do body:
-sh
+```sh
 {
-    "name": "",
-    "gender": "",
-    "birth": "YYYY-MM-DD",
-    "cpf": "",
-    "phone": "",
-    "academy": "",
-    "cofenUf": ""
+  "id": 0,
+  "nomeCompleto": "",
+  "genero": "string",
+  "dataNascimento": "",
+  "cpf": "",
+  "telefone": "",
+  "instituicaoEnsinoFormacao": "",
+  "totalAtendimentos": 0,
+  "cofeN_UF": ""
 }
+```
 
-
-Requisição: nurseList;
+Requisição: BuscarEnfermeiro;
 Descrição: Gera uma lista dos enfermeiros cadastrados no banco de dados;
 Método: GET;
-Path: http://localhost:3333/nurse
+Path: http://localhost:5011/enfermeiros/buscarEnfermeiro
 
 
-Requisição: searchNurse;
+Requisição: BuscarEnfermeiro;
 Descrição: Busca o enfermeiro no banco de dados pelo Id;
 Método: GET;
-Path: http://localhost:3333/nurse/:id
+Path: http://localhost:5011/enfermeiros/buscarEnfermeiro/{id}
 
 
-Requisição: deleteNurse;
+Requisição: DeleteEnfermeiro;
 Descrição: Busca o enfermeiro pelo Id e exclui do banco de dados;
 Método: DELETE;
-Path: http://localhost:3333/nurse/:id
+Path: http://localhost:5011/enfermeiros/deleteEnfermeiro/{id}
 
 <p>_________________</p>
 
-<h3>Rotas Service >>></h3>
+<h3>Rotas ATENDIMENTOS >>></h3>
 
 
-Requisição: service;
-Descrição: Enviando o body com Id do paciente e Id do médico, inicia o atendimento, atualiza o status do paciente para "Atendido" e incrementa um atendimento na contagem de atendimentos de ambos. 
+Requisição: Atendimentos;
+Descrição: Enviando o body com Id do paciente e Id do médico, com campo observação para detalhes da consulta, inicia o atendimento, atualiza o status do paciente para "Atendido" e incrementa um atendimento na contagem de atendimentos de ambos. 
 Método: POST;
-Path: http://localhost:3333/service
+Path: http://localhost:5011/atendimentos/atendimentoMedico
 Modelo do body:
-sh
+```sh
 {
-    "idPatient": "9",
-    "idDoctor": "1"
+    "PacienteId": "9",
+    "MedicoId": "1",
+    "Observacoes": ""
 }
+```
 
 <p>_________________</p>
 
@@ -292,17 +303,17 @@ sh
 
 - FrontEnd - A API pode receber um FrontEnd para melhorar a usabilidade;
 - Rotas - A API pode receber novas rotas e oferecer novas funcionalidades, por exemplo:
-     sh
+     ```sh
      + Rotas para listar pacientes atendidos por determinado Médico;
-     
-    sh
+     ```
+    ```sh
      + Inclusão de contagem de atendimento para Nurses;
-     
-     sh
+     ```
+     ```sh
      + Criação de attendence para Nurses;
-     
-     sh
+     ```
+     ```sh
      + Sistema de login para os usuários do sistema;
-     
+     ```
 - Models - As especificações de cada model podem ser aprimoradas;
 - ...
