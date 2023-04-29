@@ -61,8 +61,9 @@ Por fim, instalaremos o [Swashbuckle.AspNetCore] para poder atualizar o servidor
 
 O projeto foi executado em pastas para oferecer uma melhor compreensão do código. Veja como está idealizado:
 
-- [src] - Pastas Controllers, Models, Enums e DTOs;
-- [enums] - Pasta com arquivo de classes do tipo enums;
+- [projeto] - Pastas Controllers, Models, Enums e DTOs;
+- [enums] - Pasta com arquivoz de classes do tipo enums;
+- [DTOs] - Pasta com arquivoz de classes do tipo DTO;
 - [models] - Arquivos de criação de tabelas no banco de dados;
 - [controllers] - Pastas com os arquivos das requisições da aplicação. Constam os arquivos Paciente, Medicos, Enfermeiros e Atendimento;
 
