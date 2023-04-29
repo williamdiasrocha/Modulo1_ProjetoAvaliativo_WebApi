@@ -19,10 +19,6 @@ namespace LabApi.DTOS
         
         
 
-        public AtualizacaoStatusMedicoDTO()
-        {
-            StatusDisponiveis = StatusDisponiveis.ToList();
-            
-        }
+        
     }
 }

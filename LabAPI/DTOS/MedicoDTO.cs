@@ -1,5 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using LabApi.Enums;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace LabApi.DTOS
 {
@@ -14,11 +16,11 @@ namespace LabApi.DTOS
         public string Telefone { get; set; }  
         public string InstituicaoEnsinoFormacao { get; set; }
         public string CRM_UF { get; set; }
-        [EnumDataType(typeof(Especializacao_Clinica))]
+        
         public Especializacao_Clinica Especializacao_Clinica {get; set; }
      
         public List<string> EspecializacaoClinica { get; set; } 
-        [EnumDataType(typeof(EstadoSistema))]
+        
         public EstadoSistema Estado_No_Sistema { get; set; } 
         public int TotalAtendimentos { get; set; } = 0;
        
@@ -28,7 +30,7 @@ namespace LabApi.DTOS
         Estado_No_Sistema = EstadoSistema.Ativo;
     }   
 
-        
+    
 
         
 

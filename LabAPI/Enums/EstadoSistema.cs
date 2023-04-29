@@ -1,11 +1,11 @@
 using System;
 using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 namespace LabApi.Enums
 {
-    [JsonConverter(typeof(StringEnumConverter))]
+    [System.Text.Json.Serialization.JsonConverter(typeof(JsonStringEnumConverter))]
     public enum EstadoSistema
     {
        [EnumMember(Value = "ATIVO")]
